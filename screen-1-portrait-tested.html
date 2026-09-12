@@ -15,6 +15,7 @@ h1{margin:0;font-family:Georgia,serif;font-size:59.4px;line-height:.9}
 .category-head{display:flex;align-items:center;gap:7.02px}.category-head .category-title{flex:1}
 .category-title{display:flex;align-items:center;gap:8.64px;margin:0 0 4.8px;font-family:Georgia,serif;font-size:19.44px;color:var(--red);font-weight:800}
 .category-title:after{content:"";height:2px;flex:1;background:rgba(155,48,42,.2)}
+.breakfast-until{margin-left:7px;color:var(--muted);font-family:Segoe UI,Arial,sans-serif;font-size:.72em;font-weight:800;white-space:nowrap}
 .item{padding:1.536px 0 3.072px}.top{display:flex;align-items:baseline;gap:5.4px}
 .name{font-weight:800;font-size:15.336px;line-height:1.08}.dots{flex:1;min-width:6.48px;border-bottom:2px dotted rgba(43,33,25,.22);transform:translateY(-.25em)}
 .price{color:var(--green);font-weight:900;font-size:14.04px;white-space:nowrap}
@@ -148,6 +149,24 @@ const content = document.getElementById("content");
 const statusEl = document.getElementById("status");
 const imageTickerEl = document.getElementById("image-ticker");
 let imageTickerMode="large";
+let breakfastSettings={auto:false,manual:false};
+let lastBreakfastVisibility=null;
+const BREAKFAST_TIME_ZONE="America/Denver";
+const BREAKFAST_CUTOFF_MINUTES=14*60;
+function breakfastClockMinutes(){
+ const simulated=new URLSearchParams(location.search).get("breakfastTime");
+ if(simulated&&/^([01]?\d|2[0-3]):[0-5]\d$/.test(simulated)){const [h,m]=simulated.split(":").map(Number);return h*60+m}
+ const parts=new Intl.DateTimeFormat("en-US",{timeZone:BREAKFAST_TIME_ZONE,hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).formatToParts(new Date());
+ const value=Object.fromEntries(parts.map(p=>[p.type,p.value]));
+ return Number(value.hour)*60+Number(value.minute);
+}
+function showBreakfastItems(){return breakfastSettings.auto?breakfastClockMinutes()<BREAKFAST_CUTOFF_MINUTES:breakfastSettings.manual}
+function breakfastHeading(name){return clean(name).toLowerCase()==="breakfast"?esc(name)+'<span class="breakfast-until">Available until 2pm</span>':esc(name)}
+function refreshBreakfastAtBoundary(){
+ const visible=showBreakfastItems();
+ if(lastBreakfastVisibility!==null&&visible!==lastBreakfastVisibility&&masterRows.length)render(masterRows,tacosPanel);
+ lastBreakfastVisibility=visible;
+}
 const clean=v=>(v===null||v===undefined?"":String(v).trim());
 const truthy=v=>v===true||v===1||v==="1"||clean(v).toLowerCase()==="true";
 const esc=s=>clean(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
@@ -261,6 +280,8 @@ function updateImageTicker(rows){
 }
 function render(rows,panelTable){
  const panel=panelData(panelTable);
+ const breakfastVisible=showBreakfastItems();
+ lastBreakfastVisibility=breakfastVisible;
  let items=rows.filter(r=>truthy(r.Active)&&clean(r.Screen_Suggestion)===TARGET_SCREEN&&!(TARGET_SCREEN==="Screen 3"&&/^(beverages|alcohol drinks)$/i.test(clean(r.Display_Category))));
  items.sort((a,b)=>(Number(a.Display_Order)||99999)-(Number(b.Display_Order)||99999)||clean(a.Display_Name).localeCompare(clean(b.Display_Name)));
  density(items);
@@ -269,16 +290,16 @@ function render(rows,panelTable){
  const categoryOrder=["breakfast","tacos & taquitos","plates"];
  groups.sort((a,b)=>categoryOrder.indexOf(clean(a.name).toLowerCase())-categoryOrder.indexOf(clean(b.name).toLowerCase()));
  if(!groups.length){content.innerHTML=`<div class="error"><strong>No items assigned to ${esc(TARGET_SCREEN)}.</strong><br>Check Active and Screen_Suggestion in Menu_Master.</div>`;return}
- content.innerHTML=groups.map(g=>`<section class="category${categoryClass(g.name)}"><div class="category-head"><h2 class="category-title">${esc(g.name)}</h2>${categoryHeaderOptions(g.name)}</div>${categoryIntro(g.name)}${groupUsesProteins(g.name)?proteinBanner(panel):""}${g.items.map(item=>{if(isProteinBanner(item))return "";const rawPrice=priceOf(item),itemName=clean(item.Display_Name).toLowerCase().replace(/[.]+$/g,""),hideBreakfastChileText=["los padilla breakfast burrito jr","los padilla smothered breakfast burrito","breakfast chimichanga smothered"].includes(itemName),hideVariant=["burritos in foil","smothered burritos"].includes(clean(g.name).toLowerCase())||hideBreakfastChileText,v=hideVariant?"":clean(item.Variant_or_Size),d=clean(item.Dietary),x=clean(item.Description),combo=combinationDetails(item,x,rawPrice),p=combo?"":rawPrice,chile=chileOptions(item);return `<article class="item"><div class="top"><span class="name">${badgesFor(item)}${esc(item.Display_Name)}</span>${chile}${p?`<span class="dots"></span><span class="price">${esc(p)}</span>`:""}</div>${combo||((v||x||d)?`<div class="desc">${v?`<span class="variant">${esc(v)}</span>${x?" · ":""}`:""}${x?esc(x):""}${d?` <span class="dietary">(${esc(d)})</span>`:""}</div>`:"")}${tagsFor(item,panel)}</article>`}).join("")}</section>`).join("");
+ content.innerHTML=groups.map(g=>{const isBreakfast=clean(g.name).toLowerCase()==="breakfast",showBreakfastContent=!isBreakfast||breakfastVisible;return `<section class="category${categoryClass(g.name)}"><div class="category-head"><h2 class="category-title">${breakfastHeading(g.name)}</h2>${categoryHeaderOptions(g.name)}</div>${categoryIntro(g.name)}${showBreakfastContent&&groupUsesProteins(g.name)?proteinBanner(panel):""}${showBreakfastContent?g.items.map(item=>{if(isProteinBanner(item))return "";const rawPrice=priceOf(item),itemName=clean(item.Display_Name).toLowerCase().replace(/[.]+$/g,""),hideBreakfastChileText=["los padilla breakfast burrito jr","los padilla smothered breakfast burrito","breakfast chimichanga smothered"].includes(itemName),hideVariant=["burritos in foil","smothered burritos"].includes(clean(g.name).toLowerCase())||hideBreakfastChileText,v=hideVariant?"":clean(item.Variant_or_Size),d=clean(item.Dietary),x=clean(item.Description),combo=combinationDetails(item,x,rawPrice),p=combo?"":rawPrice,chile=chileOptions(item);return `<article class="item"><div class="top"><span class="name">${badgesFor(item)}${esc(item.Display_Name)}</span>${chile}${p?`<span class="dots"></span><span class="price">${esc(p)}</span>`:""}</div>${combo||((v||x||d)?`<div class="desc">${v?`<span class="variant">${esc(v)}</span>${x?" · ":""}`:""}${x?esc(x):""}${d?` <span class="dietary">(${esc(d)})</span>`:""}</div>`:"")}${tagsFor(item,panel)}</article>`}).join(""):""}</section>`}).join("");
  statusEl.textContent="Synced "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});requestAnimationFrame(layoutImageTicker);
 }
 function fail(m){statusEl.textContent="Connection error";content.innerHTML=`<div class="error"><strong>Google Sheets could not be loaded.</strong><br>${esc(m)}<br><small>Keep the Sheet shared as Anyone with the link – Viewer.</small></div>`}
 let masterRows=[],tacosPanel=null,badgesById=new Map();
 window.arlenesMenuCallback=function(resp){try{if(!resp||!resp.table)throw new Error("Google returned no table data.");masterRows=rowsFrom(resp.table);render(masterRows,tacosPanel)}catch(e){fail(e.message||String(e))}};
 window.arlenesTacosCallback=function(resp){if(resp&&resp.table){tacosPanel=resp.table;if(masterRows.length)render(masterRows,tacosPanel)}};
-window.arlenesFunctionsCallback=function(resp){if(resp&&resp.table){badgesById=new Map(rowsFrom(resp.table).filter(r=>clean(r.Menu_ID)).map(r=>[clean(r.Menu_ID),{crown:truthy(r.Crown),best:truthy(r["Best Seller"]),heart:truthy(r.Heart)}]));if(masterRows.length)render(masterRows,tacosPanel)}};
+window.arlenesFunctionsCallback=function(resp){if(resp&&resp.table){const functionRows=rowsFrom(resp.table);badgesById=new Map(functionRows.filter(r=>clean(r.Menu_ID)).map(r=>[clean(r.Menu_ID),{crown:truthy(r.Crown),best:truthy(r["Best Seller"]),heart:truthy(r.Heart)}]));const breakfastRow=functionRows.find(r=>clean(r.Function).toLowerCase()==="breakfast_schedule");if(breakfastRow)breakfastSettings={auto:truthy(breakfastRow.Active),manual:truthy(breakfastRow["screen 1"])};if(masterRows.length)render(masterRows,tacosPanel)}};
 window.arlenesImageTickerCallback=function(resp){if(resp&&resp.table)updateImageTicker(rowsFrom(resp.table))};
 function addSheetLoader(id,sheet,callback,headers){const old=document.getElementById(id);if(old)old.remove();const s=document.createElement("script");s.id=id;s.src="https://docs.google.com/spreadsheets/d/"+SPREADSHEET_ID+"/gviz/tq?sheet="+encodeURIComponent(sheet)+"&tqx=responseHandler:"+callback+"&tq="+encodeURIComponent("select *")+"&headers="+headers+"&_="+Date.now();s.onerror=()=>{if(sheet===SHEET_NAME)fail("The Google Sheets endpoint did not respond.")};document.body.appendChild(s)}
 function load(){statusEl.textContent="Syncing…";addSheetLoader("gsheet-loader",SHEET_NAME,"arlenesMenuCallback",1);addSheetLoader("tacos-panel-loader",TACOS_PANEL_SHEET,"arlenesTacosCallback",0);addSheetLoader("functions-loader",FUNCTIONS_SHEET,"arlenesFunctionsCallback",1);addSheetLoader("image-ticker-loader",IMAGE_TICKER_SHEET,"arlenesImageTickerCallback",1)}
-load();setInterval(load,REFRESH_MS);
+load();setInterval(load,REFRESH_MS);setInterval(refreshBreakfastAtBoundary,15000);
 </script></body></html>
