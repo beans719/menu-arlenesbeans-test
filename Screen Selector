@@ -33,9 +33,9 @@
     <h1 class="brand">Arlene's Beans</h1>
     <p class="subtitle">Select a menu screen</p>
     <nav class="screen-buttons" aria-label="Menu screens">
-      <a class="screen-button" href="screen-1-portrait-tested.html" data-screen="1"><span class="number">1</span><span class="label">Screen 1</span></a>
-      <a class="screen-button" href="screen-2-portrait.html" data-screen="2"><span class="number">2</span><span class="label">Screen 2</span></a>
-      <a class="screen-button" href="screen-3-portrait.html" data-screen="3"><span class="number">3</span><span class="label">Screen 3</span></a>
+      <a class="screen-button" href="screen-1-test.html" data-screen="1"><span class="number">1</span><span class="label">Screen 1</span></a>
+      <a class="screen-button" href="screen-2-test.html" data-screen="2"><span class="number">2</span><span class="label">Screen 2</span></a>
+      <a class="screen-button" href="screen-3-test.html" data-screen="3"><span class="number">3</span><span class="label">Screen 3</span></a>
     </nav>
     <p class="hint">Use the remote arrows and press OK, or press 1, 2 or 3.</p>
   </main>
