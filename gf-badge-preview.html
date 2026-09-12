@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arlene's Beans — GF Badge Preview</title>
+<style>
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;background:#1c1814;color:#f7f0e3;font-family:Arial,sans-serif;overflow:hidden}
+.preview-shell{height:100%;display:grid;grid-template-rows:auto 1fr}
+.preview-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#2a231d;border-bottom:1px solid rgba(255,255,255,.12);z-index:20}
+.preview-title{font-weight:700;margin-right:auto;white-space:nowrap}
+.preview-note{font-size:12px;opacity:.72;margin-right:10px;white-space:nowrap}
+button{border:1px solid rgba(255,255,255,.22);background:#3a3028;color:#f7f0e3;border-radius:999px;padding:8px 13px;font-weight:700;cursor:pointer}
+button.active{background:#57694a;border-color:#839676}
+.viewport{position:relative;min-height:0;background:#000}
+iframe{display:block;width:100%;height:100%;border:0;background:#f7f0e3}
+@media(max-width:720px){.preview-note{display:none}.preview-title{font-size:13px}.preview-bar{padding:8px;gap:6px}button{padding:7px 10px;font-size:12px}}
+</style>
+</head>
+<body>
+<div class="preview-shell">
+  <div class="preview-bar">
+    <div class="preview-title">Gluten Friendly badge preview</div>
+    <div class="preview-note">TEST only · replaces visible “(GF)” labels</div>
+    <button data-src="screen-1-portrait-tested.html" class="active">Screen 1</button>
+    <button data-src="screen-2-portrait.html">Screen 2</button>
+    <button data-src="screen-3-portrait.html">Screen 3</button>
+  </div>
+  <div class="viewport"><iframe id="menu" src="screen-1-portrait-tested.html" title="Arlene's Beans menu preview"></iframe></div>
+</div>
+<script>
+const frame=document.getElementById('menu');
+const buttons=[...document.querySelectorAll('button[data-src]')];
+const BADGE_CSS=`
+.gf-friendly-badge{
+  display:inline-flex!important;
+  align-items:center;
+  justify-content:center;
+  vertical-align:middle;
+  margin-left:4px;
+  padding:1px 5px 1.5px;
+  min-width:23px;
+  border:1px solid rgba(87,105,74,.68);
+  border-radius:999px;
+  background:rgba(87,105,74,.10);
+  color:#57694A!important;
+  font-family:'Work Sans',Segoe UI,Arial,sans-serif;
+  font-size:.78em!important;
+  line-height:1.05!important;
+  font-weight:700!important;
+  letter-spacing:.045em;
+  white-space:nowrap;
+}
+.gf-friendly-badge::before{
+  content:'';
+  display:inline-block;
+  width:5px;
+  height:8px;
+  margin-right:3px;
+  border-radius:80% 0 80% 0;
+  background:#57694A;
+  transform:rotate(-32deg);
+  opacity:.9;
+}
+`;
+function applyBadges(){
+  let doc;
+  try{doc=frame.contentDocument||frame.contentWindow.document}catch(e){return}
+  if(!doc||!doc.head)return;
+  if(!doc.getElementById('gf-friendly-preview-style')){
+    const style=doc.createElement('style');
+    style.id='gf-friendly-preview-style';
+    style.textContent=BADGE_CSS;
+    doc.head.appendChild(style);
+  }
+  doc.querySelectorAll('.dietary').forEach(el=>{
+    const normalized=(el.textContent||'').replace(/[()\s]/g,'').toUpperCase();
+    if(normalized==='GF'){
+      el.textContent='GF';
+      el.classList.add('gf-friendly-badge');
+      el.setAttribute('title','Gluten Friendly');
+      el.setAttribute('aria-label','Gluten Friendly');
+    }
+  });
+}
+function watchFrame(){
+  applyBadges();
+  let doc;
+  try{doc=frame.contentDocument||frame.contentWindow.document}catch(e){return}
+  if(!doc||!doc.body)return;
+  const observer=new MutationObserver(()=>applyBadges());
+  observer.observe(doc.body,{childList:true,subtree:true,characterData:true});
+  setTimeout(applyBadges,500);
+  setTimeout(applyBadges,1500);
+  setTimeout(applyBadges,3500);
+}
+frame.addEventListener('load',watchFrame);
+buttons.forEach(btn=>btn.addEventListener('click',()=>{
+  buttons.forEach(b=>b.classList.toggle('active',b===btn));
+  frame.src=btn.dataset.src;
+}));
+</script>
+</body>
+</html>
