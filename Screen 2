@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú - Pantalla 2</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: #0b0b0b;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            padding: 40px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #ff6b00;
+            padding-bottom: 20px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            color: #ff6b00;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .menu-card {
+            background: #161616;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 6px solid #ff6b00;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        .item-details h3 {
+            margin: 0 0 10px 0;
+            font-size: 2.2rem;
+            color: #ffffff;
+        }
+        .item-details p {
+            margin: 0;
+            color: #a0a0a0;
+            font-size: 1.3rem;
+            line-height: 1.4;
+        }
+        .item-price {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #4CAF50;
+            white-space: nowrap;
+            margin-left: 20px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Burritos y Especialidades de la Casa</h1>
+    </header>
+
+    <div class="menu-grid">
+        <div class="menu-card">
+            <div class="item-details">
+                <h3>Burrito Arlene's Special</h3>
+                <p>Carne asada, frijoles de la olla, queso fundido y salsa pico de gallo</p>
+            </div>
+            <div class="item-price">$12.50</div>
+        </div>
+        <div class="menu-card">
+            <div class="item-details">
+                <h3>Tacos de Birria (Orden de 3)</h3>
+                <p>Acompañados de consomé caliente, cilantro, cebolla y salsa roja</p>
+            </div>
+            <div class="item-price">$13.99</div>
+        </div>
+    </div>
+
+</body>
+</html>
