@@ -164,7 +164,9 @@ const TACOS_PANEL_SHEET = "Tacos Panel de control";
 const FUNCTIONS_SHEET = "Functions";
 const IMAGE_TICKER_SHEET = "Image Ticker";
 const TARGET_SCREEN = document.body.dataset.screen;
-const REFRESH_MS = 300000;
+const CHANGE_SIGNAL_SHEET = "Control Panel";
+const CHANGE_SIGNAL_RANGE = "H7";
+const SIGNAL_POLL_MS = 15000;
 const content = document.getElementById("content");
 const statusEl = document.getElementById("status");
 const tickerEl = document.getElementById("special-ticker");
@@ -295,5 +297,20 @@ window.arlenesImageTickerCallback=function(resp){if(resp&&resp.table)updateImage
 function addSheetLoader(id,sheet,callback,headers){const old=document.getElementById(id);if(old)old.remove();const s=document.createElement("script");s.id=id;s.src="https://docs.google.com/spreadsheets/d/"+SPREADSHEET_ID+"/gviz/tq?sheet="+encodeURIComponent(sheet)+"&tqx=responseHandler:"+callback+"&tq="+encodeURIComponent("select *")+"&headers="+headers+"&_="+Date.now();s.onerror=()=>{if(sheet===SHEET_NAME)fail("The Google Sheets endpoint did not respond.")};document.body.appendChild(s)}
 /* Ejecuta la sincronización inicial y después la repite cada cinco minutos. */
 function load(){statusEl.textContent="Syncing…";addSheetLoader("gsheet-loader",SHEET_NAME,"arlenesMenuCallback",1);addSheetLoader("tacos-panel-loader",TACOS_PANEL_SHEET,"arlenesTacosCallback",0);addSheetLoader("functions-loader",FUNCTIONS_SHEET,"arlenesFunctionsCallback",1);addSheetLoader("image-ticker-loader",IMAGE_TICKER_SHEET,"arlenesImageTickerCallback",1)}
-load();setInterval(load,REFRESH_MS);
+let lastMenuChangeSignal=null;
+window.arlenesChangeSignalCallback=function(resp){
+ try{
+  const cell=resp&&resp.table&&resp.table.rows&&resp.table.rows[0]&&resp.table.rows[0].c&&resp.table.rows[0].c[0];
+  const signal=cell&&cell.v!==null&&cell.v!==undefined?String(cell.v):"";
+  if(lastMenuChangeSignal===null){lastMenuChangeSignal=signal;return}
+  if(signal!==lastMenuChangeSignal){lastMenuChangeSignal=signal;load()}
+ }catch(e){}
+};
+function checkMenuChangeSignal(){
+ const old=document.getElementById("menu-change-signal-loader");if(old)old.remove();
+ const s=document.createElement("script");s.id="menu-change-signal-loader";
+ s.src="https://docs.google.com/spreadsheets/d/"+SPREADSHEET_ID+"/gviz/tq?sheet="+encodeURIComponent(CHANGE_SIGNAL_SHEET)+"&range="+encodeURIComponent(CHANGE_SIGNAL_RANGE)+"&tqx=responseHandler:arlenesChangeSignalCallback&headers=0&_="+Date.now();
+ document.body.appendChild(s);
+}
+load();checkMenuChangeSignal();setInterval(checkMenuChangeSignal,SIGNAL_POLL_MS);
 </script></body></html>
