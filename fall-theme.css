@@ -1,0 +1,109 @@
+/* Arlene's Beans — Fall seasonal layer (TEST)
+   Designed as a non-destructive override for the existing Chimayo menu system. */
+
+body.season-fall{
+  --paper:#F4E7D2;
+  --ink:#38291F;
+  --muted:#806B58;
+  --red:#9A452D;
+  --green:#667247;
+  --turquoise:#4E716B;
+  --gold:#C28A3D;
+  --line:rgba(78,52,34,.16);
+  background:
+    radial-gradient(circle at 8% 4%,rgba(194,138,61,.10),transparent 21%),
+    radial-gradient(circle at 94% 96%,rgba(154,69,45,.08),transparent 24%),
+    var(--paper)!important;
+}
+
+body.season-fall .screen{position:relative;isolation:isolate}
+body.season-fall .screen>*{position:relative;z-index:2}
+
+/* Southwestern autumn corner motifs: warm, subtle, and outside menu copy. */
+body.season-fall .screen:before,
+body.season-fall .screen:after{
+  position:absolute;
+  z-index:1;
+  pointer-events:none;
+  font-family:Georgia,serif;
+  line-height:1;
+  opacity:.18;
+}
+body.season-fall .screen:before{
+  content:'❦';
+  top:21px;
+  right:27px;
+  color:var(--gold);
+  font-size:42px;
+  transform:rotate(16deg);
+}
+body.season-fall .screen:after{
+  content:'❧';
+  left:18px;
+  bottom:22px;
+  color:var(--red);
+  font-size:34px;
+  transform:rotate(-18deg);
+}
+
+body.season-fall .header{
+  border-bottom-color:rgba(154,69,45,.28)!important;
+}
+body.season-fall .header:after{
+  content:'';
+  position:absolute;
+  left:0;
+  bottom:-2px;
+  width:124px;
+  height:3px;
+  background:linear-gradient(90deg,var(--red) 0 34%,var(--gold) 34% 67%,var(--green) 67% 100%);
+  border-radius:999px;
+}
+body.season-fall h1{color:#34251D;text-shadow:0 1px 0 rgba(255,255,255,.35)}
+body.season-fall .kicker{color:#8B6549!important}
+body.season-fall .screen-title,
+body.season-fall .category-title,
+body.season-fall .combination-lead{color:var(--red)!important}
+
+body.season-fall .category-head{border-bottom-color:rgba(154,69,45,.17)!important}
+body.season-fall .item{border-bottom-color:rgba(84,57,39,.095)!important}
+body.season-fall .dots{border-bottom-color:rgba(84,57,39,.22)!important}
+body.season-fall .price{color:var(--green)!important}
+body.season-fall .variant{color:var(--turquoise)!important}
+
+body.season-fall .protein-heading{color:var(--red)!important}
+body.season-fall .protein-tag:not(:last-child):after{color:var(--gold)!important}
+body.season-fall .combination-details{border-left-color:var(--gold)!important}
+body.season-fall .combination-price{border-color:rgba(102,114,71,.35)!important}
+body.season-fall .solo-price{color:var(--turquoise)!important;background:rgba(78,113,107,.09)!important}
+body.season-fall .solo-price.combination-only{color:var(--red)!important;background:rgba(154,69,45,.075)!important}
+
+body.season-fall .chile-dot.c-green{background:#657347!important}
+body.season-fall .chile-dot.c-red{background:#A3462F!important}
+body.season-fall .chile-dot.c-xmas{background:#4E716B!important}
+
+body.season-fall .footer{
+  border-top-color:rgba(154,69,45,.18)!important;
+  color:#806B58!important;
+}
+
+/* Seasonal treatment for the red information ticker without changing its geometry. */
+body.season-fall .news-ticker,
+body.season-fall .red-ticker,
+body.season-fall [class*='ticker-banner']{
+  box-shadow:inset 0 1px 0 rgba(255,231,195,.18),inset 0 -1px 0 rgba(72,31,20,.14);
+}
+
+/* Image carousel: warmer cards, same dimensions and timing. */
+body.season-fall .image-ticker-card{
+  border-color:rgba(154,69,45,.20)!important;
+  background:#F8EEDC!important;
+  box-shadow:0 4px 14px rgba(74,49,33,.08)!important;
+}
+body.season-fall .image-ticker-caption{color:#4A3528!important}
+
+/* Keep all seasonal effects static on reduced-motion displays. */
+@media(prefers-reduced-motion:reduce){
+  body.season-fall .screen:before,
+  body.season-fall .screen:after{transform:none}
+}
