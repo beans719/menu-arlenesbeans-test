@@ -121,10 +121,15 @@ body:before,body:after{display:none!important}
 .rigid-tv-canvas .combination-price small{font-size:9.5px!important}
 .rigid-tv-canvas .combination-price strong{font-size:14.5px!important}
 .rigid-tv-canvas .solo-price{font-size:10.5px!important}
-.rigid-tv-canvas .section-chiles{font-size:18px!important}
-.rigid-tv-canvas .burrito-category .section-chiles{display:flex!important;flex:0 0 58%!important;justify-content:space-between!important;align-items:center!important;gap:0!important;font-weight:900!important;letter-spacing:-.25px}
-.rigid-tv-canvas .burrito-category .section-chiles .chile-key{gap:4px!important}
-.rigid-tv-canvas .burrito-category .section-chiles .chile-dot{width:12px!important;height:12px!important}
+.rigid-tv-canvas .section-chiles{font-size:20px!important}
+.rigid-tv-canvas .burrito-category .category-title{flex:0 0 auto!important}
+.rigid-tv-canvas .burrito-category .section-chiles{display:flex!important;flex:1 1 auto!important;width:auto!important;margin-left:14px!important;justify-content:space-between!important;align-items:center!important;gap:0!important;font-weight:900!important;letter-spacing:-.25px}
+.rigid-tv-canvas .burrito-category .section-chiles .chile-key{gap:5px!important}
+.rigid-tv-canvas .burrito-category .section-chiles .chile-dot{width:14px!important;height:14px!important;animation:burrito-chile-pulse 2.4s ease-in-out infinite}
+.rigid-tv-canvas .burrito-category .section-chiles .chile-key:nth-child(2) .chile-dot{animation-delay:.3s}
+.rigid-tv-canvas .burrito-category .section-chiles .chile-key:nth-child(3) .chile-dot{animation-delay:.6s}
+@keyframes burrito-chile-pulse{0%,100%{transform:rotate(45deg) scale(1);filter:brightness(1)}50%{transform:rotate(45deg) scale(1.16);filter:brightness(1.18)}}
+@media(prefers-reduced-motion:reduce){.rigid-tv-canvas .burrito-category .section-chiles .chile-dot{animation:none}}
 .rigid-tv-canvas .footer{font-size:12.5px!important}
 /* 7. Carrusel fotográfico opcional. Usa el mismo fondo crema del menú. */
 .image-ticker{position:fixed;left:0;right:0;bottom:0;z-index:45;height:300px;display:none;overflow:hidden;background:var(--paper,#F7F0E3);border-top:3px solid var(--gold);box-shadow:0 -5px 18px rgba(53,42,32,.24)}.image-ticker.active{display:block}.image-ticker-track{display:flex;width:max-content;height:100%;animation:image-ticker-scroll var(--image-ticker-duration,70s) linear infinite;will-change:transform}.image-ticker-group{display:flex;flex:0 0 auto;gap:16px;padding-right:16px}.image-ticker-card{flex:0 0 300px;height:280px;margin:10px 0;overflow:hidden;border-radius:9px;background:#fffaf1;box-shadow:0 2px 8px rgba(0,0,0,.22)}.image-ticker-card img{display:block;width:300px;height:220px;object-fit:cover;background:#e9dcc8}.image-ticker-caption{height:60px;display:flex;align-items:center;justify-content:center;padding:6px 12px;text-align:center;color:var(--ink);font-family:'Work Sans',Segoe UI,Arial,sans-serif;font-size:20px;font-weight:700;line-height:1.12}.image-ticker-card.image-error{display:none}@keyframes image-ticker-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}body.image-ticker-visible .screen{padding-bottom:316px!important}body.image-ticker-visible .special-ticker{bottom:300px}body.image-ticker-visible.ticker-visible .screen{padding-bottom:395px!important}
