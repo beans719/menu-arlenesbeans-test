@@ -102,8 +102,10 @@ body:before,body:after{display:none!important}
 .rigid-tv-canvas .protein-banner{gap:8px!important;margin:2px 0 4px!important}
 .rigid-tv-canvas .protein-heading{font-size:15px!important}
 .rigid-tv-canvas .protein-tags{flex-wrap:nowrap!important;min-width:0!important}
-.rigid-tv-canvas .protein-tag{font-size:20px!important;font-weight:900!important;min-width:0!important}
-.rigid-tv-canvas .protein-tag:not(:last-child):after{padding:0 3px!important}
+.rigid-tv-canvas .protein-tag{font-size:21px!important;font-weight:900!important;letter-spacing:-.25px;min-width:0!important}
+.rigid-tv-canvas .protein-tag.upcharge{flex:1.35 0 auto!important}
+.rigid-tv-canvas .protein-size-exception .protein-tag{font-size:20px!important;letter-spacing:normal}
+.rigid-tv-canvas .protein-tag:not(:last-child):after{padding:0 1px!important}
 .rigid-tv-canvas .category-intro{font-size:13px!important}
 .rigid-tv-canvas .combination-details{margin:2px 0!important;padding:2px 0 2px 7px!important;font-size:13.5px!important;line-height:1.1!important}
 .rigid-tv-canvas .combination-lead{margin-bottom:2px!important}
@@ -266,7 +268,7 @@ function render(rows,panelTable){
  const groups=[],map=new Map();
  for(const item of items){const c=clean(item.Display_Category)||"Menu";if(!map.has(c)){const g={name:c,items:[]};map.set(c,g);groups.push(g)}map.get(c).items.push(item)}
  if(!groups.length){content.innerHTML=`<div class="error"><strong>No items assigned to ${esc(TARGET_SCREEN)}.</strong><br>Check Active and Screen_Suggestion in Menu_Master.</div>`;return}
- content.innerHTML=groups.map(g=>`<section class="category${categoryClass(g.name)}"><div class="category-head"><h2 class="category-title">${esc(g.name)}</h2>${categoryHeaderOptions(g.name)}</div>${categoryIntro(g.name)}${groupUsesProteins(g.name)?proteinBanner(panel):""}${g.items.map(item=>{if(isProteinBanner(item))return "";const rawPrice=priceOf(item),hideVariant=["burritos in foil","smothered burritos"].includes(clean(g.name).toLowerCase()),v=hideVariant?"":clean(item.Variant_or_Size),d=clean(item.Dietary),x=clean(item.Description),combo=combinationDetails(item,x,rawPrice),p=combo?"":rawPrice,chile=chileOptions(item);return `<article class="item"><div class="top"><span class="name">${badgesFor(item)}${esc(item.Display_Name)}</span>${chile}${p?`<span class="dots"></span><span class="price">${esc(p)}</span>`:""}</div>${combo||((v||x||d)?`<div class="desc">${v?`<span class="variant">${esc(v)}</span>${x?" · ":""}`:""}${x?esc(x):""}${d?` <span class="dietary">(${esc(d)})</span>`:""}</div>`:"")}${itemProteins(item,panel)}</article>`}).join("")}</section>`).join("");
+ content.innerHTML=groups.map(g=>`<section class="category${categoryClass(g.name)}"><div class="category-head"><h2 class="category-title">${esc(g.name)}</h2>${categoryHeaderOptions(g.name)}</div>${categoryIntro(g.name)}${groupUsesProteins(g.name)?proteinBanner(panel):""}${g.items.map(item=>{if(isProteinBanner(item))return "";const rawPrice=priceOf(item),hideVariant=["burritos in foil","smothered burritos"].includes(clean(g.name).toLowerCase()),v=hideVariant?"":clean(item.Variant_or_Size),d=clean(item.Dietary),x=clean(item.Description),combo=combinationDetails(item,x,rawPrice),p=combo?"":rawPrice,chile=chileOptions(item);return `<article class="item${itemName==="smothered relleno burrito with meat"?" protein-size-exception":""}"><div class="top"><span class="name">${badgesFor(item)}${esc(item.Display_Name)}</span>${chile}${p?`<span class="dots"></span><span class="price">${esc(p)}</span>`:""}</div>${combo||((v||x||d)?`<div class="desc">${v?`<span class="variant">${esc(v)}</span>${x?" · ":""}`:""}${x?esc(x):""}${d?` <span class="dietary">(${esc(d)})</span>`:""}</div>`:"")}${itemProteins(item,panel)}</article>`}).join("")}</section>`).join("");
  statusEl.textContent="Synced "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
 }
 function fail(m){statusEl.textContent="Connection error";content.innerHTML=`<div class="error"><strong>Google Sheets could not be loaded.</strong><br>${esc(m)}<br><small>Keep the Sheet shared as Anyone with the link – Viewer.</small></div>`}
