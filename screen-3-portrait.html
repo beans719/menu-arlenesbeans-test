@@ -162,7 +162,7 @@ function tagsFor(item,panel){
  if(!tacoId&&!isProteinList)return "";
  const tags=panel.proteins.filter(p=>truthy(p.active)&&(isProteinList||clean(p.showOn).split(",").map(clean).includes(tacoId)));
  if(!tags.length)return "";
- return `<div class="protein-tags">${tags.map(p=>{const extra=clean(p.priceType).toLowerCase()==="upcharge",price=/carne asada/i.test(clean(p.name))?"$2.99":clean(p.price);return `<span class="protein-tag${extra?" upcharge":""}">${esc(p.name)}${extra&&price?" +"+esc(price):""}</span>`}).join("")}</div>`;
+ return `<div class="protein-tags">${tags.map(p=>{const extra=clean(p.priceType).toLowerCase()==="upcharge",price=/carne asada/i.test(clean(p.name))?"$2.99":clean(p.price);const displayName=/carne asada/i.test(clean(p.name))?"Asada":clean(p.name);return `<span class="protein-tag${extra?" upcharge":""}">${esc(displayName)}${extra&&price?" +"+esc(price):""}</span>`}).join("")}</div>`;
 }
 function isProteinBanner(item){return ["protein available","available protein","available proteins"].includes(clean(item.Display_Name).toLowerCase())}
 function groupUsesProteins(name){
