@@ -15,7 +15,6 @@ h1{margin:0;font-family:Georgia,serif;font-size:59.4px;line-height:.9}
 .category-head{display:flex;align-items:center;gap:7.02px}.category-head .category-title{flex:1}
 .category-title{display:flex;align-items:center;gap:8.64px;margin:0 0 4.8px;font-family:Georgia,serif;font-size:19.44px;color:var(--red);font-weight:800}
 .category-title:after{content:"";height:2px;flex:1;background:rgba(155,48,42,.2)}
-.breakfast-until{margin-left:7px;color:var(--muted);font-family:Segoe UI,Arial,sans-serif;font-size:.72em;font-weight:800;white-space:nowrap}
 .item{padding:1.536px 0 3.072px}.top{display:flex;align-items:baseline;gap:5.4px}
 .name{font-weight:800;font-size:15.336px;line-height:1.08}.dots{flex:1;min-width:6.48px;border-bottom:2px dotted rgba(43,33,25,.22);transform:translateY(-.25em)}
 .price{color:var(--green);font-weight:900;font-size:14.04px;white-space:nowrap}
@@ -104,7 +103,7 @@ body:before,body:after{display:none!important}
 .rigid-tv-canvas .protein-banner{gap:8px!important;margin:2px 0 4px!important}
 .rigid-tv-canvas .protein-heading{font-size:15px!important}
 .rigid-tv-canvas .protein-tags{flex-wrap:nowrap!important;min-width:0!important}
-.rigid-tv-canvas .protein-tag{font-size:18px!important;min-width:0!important}
+.rigid-tv-canvas .protein-tag{font-size:20px!important;font-weight:900!important;min-width:0!important}
 .rigid-tv-canvas .protein-tag:not(:last-child):after{padding:0 3px!important}
 .rigid-tv-canvas .category-intro{font-size:13px!important}
 .rigid-tv-canvas .combination-details{margin:2px 0!important;padding:2px 0 2px 7px!important;font-size:13.5px!important;line-height:1.1!important}
@@ -161,7 +160,7 @@ function breakfastClockMinutes(){
  return Number(value.hour)*60+Number(value.minute);
 }
 function showBreakfastItems(){return breakfastSettings.auto?breakfastClockMinutes()<BREAKFAST_CUTOFF_MINUTES:breakfastSettings.manual}
-function breakfastHeading(name){return clean(name).toLowerCase()==="breakfast"?esc(name)+'<span class="breakfast-until">Available until 2pm</span>':esc(name)}
+function breakfastHeading(name){return esc(name)}
 function refreshBreakfastAtBoundary(){
  const visible=showBreakfastItems();
  if(lastBreakfastVisibility!==null&&visible!==lastBreakfastVisibility&&masterRows.length)render(masterRows,tacosPanel);
