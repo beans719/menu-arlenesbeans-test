@@ -1,0 +1,284 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"><title>Arlene's Beans — Screen 1</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet"><style>
+:root{--adobe:#e9dcc8;--paper:#fffaf1;--ink:#2b2119;--muted:#6e5b4a;--red:#9b302a;--green:#506b3f;--turquoise:#2f7773;--gold:#c28a3c;--line:rgba(43,33,25,.15)}
+*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}
+body{font-family:Segoe UI,Arial,sans-serif;color:var(--ink);background:linear-gradient(rgba(233,220,200,.97),rgba(233,220,200,.97)),repeating-linear-gradient(135deg,transparent 0 42px,rgba(47,119,115,.04) 42px 45px)}
+body:before,body:after{content:"";position:fixed;left:0;width:100%;height:9px;background:linear-gradient(90deg,var(--red) 0 25%,var(--gold) 25% 50%,var(--turquoise) 50% 75%,var(--green) 75% 100%);z-index:20}
+body:before{top:0}body:after{bottom:0}
+.screen{width:1080px;height:1920px;padding:40.32px 44.28px 34.56px;display:flex;flex-direction:column}
+.header{display:flex;justify-content:space-between;align-items:flex-end;gap:21.6px;padding:15.36px 0 21.12px;border-bottom:2px solid var(--line)}
+h1{margin:0;font-family:Georgia,serif;font-size:59.4px;line-height:.9}
+.kicker{margin-top:11.52px;font-size:16.2px;letter-spacing:.17em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.screen-title{max-width:486px;text-align:right;font-family:Georgia,serif;color:var(--red);font-weight:800;font-size:25.38px}
+.content{flex:1;min-height:0;display:block;column-count:2;column-gap:16.74px;column-fill:balance;padding-top:16.32px;overflow:hidden}
+.category{display:inline-block;width:100%;break-inside:avoid;vertical-align:top;margin:0 0 13.824px;background:rgba(255,250,241,.9);border:1px solid var(--line);border-radius:15px;padding:11.904px 14.58px 10.56px}
+.category.compact-category{align-self:start;height:auto;min-height:0}
+.category-head{display:flex;align-items:center;gap:7.02px}.category-head .category-title{flex:1}
+.category-title{display:flex;align-items:center;gap:8.64px;margin:0 0 4.8px;font-family:Georgia,serif;font-size:19.44px;color:var(--red);font-weight:800}
+.category-title:after{content:"";height:2px;flex:1;background:rgba(155,48,42,.2)}
+.item{padding:1.536px 0 3.072px}.top{display:flex;align-items:baseline;gap:5.4px}
+.name{font-weight:800;font-size:15.336px;line-height:1.08}.dots{flex:1;min-width:6.48px;border-bottom:2px dotted rgba(43,33,25,.22);transform:translateY(-.25em)}
+.price{color:var(--green);font-weight:900;font-size:14.04px;white-space:nowrap}
+.desc{margin-top:1.92px;color:var(--muted);font-size:10.368px;line-height:1.22;white-space:normal;overflow:visible}.variant{color:var(--turquoise);font-weight:800}.dietary{color:var(--green);font-weight:700}
+.footer{display:grid;grid-template-columns:auto 1fr auto;gap:10.8px;align-items:center;border-top:1px solid var(--line);padding-top:8.64px;margin-top:10.56px;font-size:9.18px;color:var(--muted)}
+.chiles{text-align:center;font-weight:900;color:var(--ink)}.red{color:var(--red)}.green{color:var(--green)}.xmas{color:var(--turquoise)}.status{text-align:right}
+.loading,.error{grid-column:1/-1;width:90%;justify-self:center;align-self:center;padding:38.4px 32.4px;border-radius:18px;text-align:center;background:rgba(255,250,241,.95);border:1px solid var(--line);font-size:21.6px;color:var(--muted)}
+.error strong{color:var(--red)}
+.protein-banner{margin:4.608px 0 8.064px;padding:7.296px 5.94px 8.832px;border:1px solid rgba(194,138,60,.3);border-radius:11px;background:linear-gradient(90deg,rgba(155,48,42,.055),rgba(194,138,60,.08),rgba(47,119,115,.07),rgba(80,107,63,.06))}
+.protein-heading{margin-bottom:5.376px;color:var(--muted);font-size:6.264px;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+.protein-tags{display:flex;flex-wrap:nowrap;align-items:stretch;gap:4.104px;width:100%}
+.protein-tag{flex:1;min-width:0;display:inline-flex;align-items:center;justify-content:center;border:2.5px solid rgba(47,119,115,.5);border-radius:999px;padding:7.296px 1.944px;color:var(--turquoise);background:rgba(255,250,241,.9);box-shadow:0 2px 0 rgba(43,33,25,.1);font-size:10.368px;font-weight:900;line-height:1.05;white-space:nowrap}
+.protein-tag:nth-child(1){color:var(--red);border-color:rgba(155,48,42,.42);background:rgba(155,48,42,.06)}
+.protein-tag:nth-child(2){color:#8b6025;border-color:rgba(194,138,60,.5);background:rgba(194,138,60,.08)}
+.protein-tag:nth-child(3){color:var(--turquoise);border-color:rgba(47,119,115,.48);background:rgba(47,119,115,.07)}
+.protein-tag:nth-child(4){color:var(--green);border-color:rgba(80,107,63,.48);background:rgba(80,107,63,.07)}
+.protein-tag.upcharge{border-color:rgba(80,107,63,.48);color:var(--green);background:rgba(80,107,63,.08)}
+body.dense .protein-banner{padding:5.376px 4.536px 6.528px}body.dense .protein-heading{font-size:5.832px;margin-bottom:3.84px}body.dense .protein-tag{font-size:8.64px;padding:5.376px 1.296px;border-width:2px}
+body.ultra .protein-banner{margin:2.304px 0 4.224px;padding:3.84px 3.78px 4.992px}body.ultra .protein-heading{font-size:5.184px;margin-bottom:2.688px}body.ultra .protein-tags{gap:2.16px}body.ultra .protein-tag{font-size:7.56px;padding:3.84px 1.08px;border-width:2px}
+.chile-options{margin:3.072px 0 1.536px;font-size:8.208px;font-weight:900;letter-spacing:.05em;line-height:1.08;color:var(--muted)}
+.chile-options .green{color:var(--green)}.chile-options .red{color:var(--red)}.chile-options .xmas{color:var(--turquoise)}
+.section-chiles{flex:0 0 auto;font-size:6.696px;font-weight:900;letter-spacing:.035em;white-space:nowrap}.section-chiles .green{color:var(--green)}.section-chiles .red{color:var(--red)}.section-chiles .xmas{color:var(--turquoise)}
+.category-intro{margin:-0.384px 0 6.144px;color:var(--muted);font-size:7.344px;line-height:1.16;font-style:italic}
+.wing-options{margin:3.072px 0 1.536px;font-size:8.208px;font-weight:900;letter-spacing:.05em;line-height:1.08}.wing-options .buffalo{color:var(--red)}.wing-options .jalamango{color:var(--gold)}.wing-options .plain{color:var(--turquoise)}
+.combination-details{margin:4.224px 0 1.536px;padding:5.376px 4.86px;border-left:3px solid rgba(194,138,60,.65);background:rgba(194,138,60,.055);font-size:8.208px;line-height:1.16}
+.combination-lead{margin-bottom:3.456px;color:var(--red);font-weight:900;text-transform:uppercase;letter-spacing:.035em}
+.combination-prices{display:grid;grid-template-columns:repeat(4,1fr);gap:2.7px;margin:3.456px 0 5.76px}.combination-price{padding:4.224px 1.62px;border:2px solid rgba(80,107,63,.42);border-radius:9px;background:rgba(80,107,63,.07);text-align:center;color:var(--green);font-weight:900}.combination-price small{display:block;color:var(--muted);font-size:5.94px;text-transform:uppercase}.combination-price strong{font-size:8.856px}
+.combination-choice{display:flex;align-items:baseline;flex-wrap:wrap;column-gap:2.592px;margin:1.536px 0;color:var(--muted)}
+.combination-name{color:var(--ink);font-weight:900}.solo-price{padding:0.768px 3.024px;border-radius:999px;background:rgba(47,119,115,.1);color:var(--turquoise);font-size:6.696px;font-weight:900}.solo-price.combination-only{background:rgba(155,48,42,.09);color:var(--red)}.combination-choice .chile-options{display:inline;margin:0;font-size:6.696px}
+body.dense .chile-options,body.dense .wing-options{font-size:7.128px}body.ultra .chile-options,body.ultra .wing-options{font-size:6.264px;margin-top:1.536px}
+body.dense .combination-details{font-size:7.128px}body.ultra .combination-details{font-size:6.048px;line-height:1.1}
+body.dense .category-title{font-size:17.496px}body.dense .name{font-size:12.744px}body.dense .price{font-size:11.88px}body.dense .desc{font-size:8.856px;line-height:1.18}
+body.ultra .header{padding-bottom:11.52px}body.ultra h1{font-size:51.84px}body.ultra .kicker{font-size:12.96px}body.ultra .screen-title{font-size:21.06px}
+body.ultra .content{column-gap:11.34px;padding-top:10.56px}body.ultra .category{margin-bottom:8.64px;padding:7.296px 10.26px 6.144px;border-radius:12px}
+body.ultra .category-title{font-size:15.12px;margin-bottom:1.536px}body.ultra .item{padding:0.384px 0 1.536px}body.ultra .name{font-size:11.016px}body.ultra .price{font-size:10.584px}body.ultra .desc{font-size:7.56px;line-height:1.14}body.ultra .footer{font-size:7.776px}
+
+/* Chimayo editorial system */
+:root{--paper:#F7F0E3;--ink:#352A20;--muted:#8A7A67;--red:#8C3B2E;--green:#57694A;--turquoise:#356F68;--gold:#B8863E;--line:rgba(53,42,32,.14)}
+body{font-family:'Work Sans',Segoe UI,Arial,sans-serif;background:var(--paper);color:var(--ink)}body:before,body:after{display:none}
+.screen{padding:38.4px 34.56px 26.88px}.header{padding:9.6px 0 19.2px;border-bottom:1px solid var(--line)}h1,.screen-title,.category-title{font-family:'Fraunces',Georgia,serif;font-weight:600}h1{letter-spacing:-.02em}.screen-title{color:var(--red)}
+.content{column-gap:22.68px;padding-top:19.2px}.category,.category.compact-category{display:inline-block;margin:0 0 20.16px;padding:0;background:none;border:0;border-radius:0;box-shadow:none}.category-head{align-items:baseline;gap:7.56px;padding-bottom:5.376px;margin-bottom:6.72px;border-bottom:1px solid var(--line)}.category-title{display:block;margin:0;color:var(--red)}.category-title:after{display:none}
+.item{padding:4.8px 0 6.144px;border-bottom:1px solid rgba(53,42,32,.1)}.item:last-child{border-bottom:0}.top{align-items:center;gap:4.104px}.dots{border-bottom:1px dotted rgba(53,42,32,.2)}.name{color:var(--ink);font-weight:600}.price{color:var(--green);font-weight:600}.desc{color:var(--muted)}.variant{color:var(--turquoise);font-weight:600}.dietary{color:var(--ink);font-weight:500}
+.protein-banner{display:flex;align-items:baseline;gap:5.94px;margin:2.304px 0 8.064px;padding:0;background:none;border:0;border-radius:0}.protein-heading{flex:0 0 auto;margin:0;color:var(--red);font-size:5.832px;font-weight:600;letter-spacing:.11em}.protein-tags{display:flex;flex-wrap:wrap;align-items:baseline;gap:0;width:auto}.protein-tag,.protein-tag:nth-child(n),.protein-tag.upcharge{display:inline;color:var(--ink);background:none;border:0;border-radius:0;box-shadow:none;padding:0;font-size:8.208px;font-weight:500;line-height:1.2;white-space:nowrap}.protein-tag:not(:last-child):after{content:' · ';color:var(--gold);padding:0 2.7px}
+.chile-options{display:inline-flex;align-items:center;gap:1.944px;margin:0 0 0 1.296px;font-size:0;vertical-align:middle}.chile-dot{display:inline-block;width:4.536px;height:4.536px;border-radius:50% 50% 50% 0;transform:rotate(45deg)}.chile-dot.c-green{background:var(--green)}.chile-dot.c-red{background:var(--red)}.chile-dot.c-xmas{background:var(--turquoise)}
+.section-chiles,.footer .chiles{display:flex;align-items:center;justify-content:center;gap:7.02px;color:var(--muted);font-weight:500}.chile-key{display:inline-flex;align-items:center;gap:2.7px}.section-chiles .chile-dot,.footer .chile-dot{width:4.32px;height:4.32px}.section-chiles{margin-left:auto;font-size:6.372px}.footer .chiles{font-size:7.344px}.category-intro{color:var(--muted);font-style:normal}
+.wing-options{color:var(--muted);font-weight:500}.wing-options .buffalo,.wing-options .jalamango,.wing-options .plain{color:var(--ink)}.combination-details{padding:3.84px 0 3.456px 5.94px;background:none;border-left:2px solid var(--gold);color:var(--muted)}.combination-lead{color:var(--red);font-weight:600}.combination-price{padding:3.456px 1.08px;background:none;border:1px solid rgba(87,105,74,.35);border-radius:5px;color:var(--green);font-weight:600}.combination-price strong{font-weight:600}.combination-name{color:var(--ink);font-weight:600}.solo-price,.solo-price.combination-only{padding:0;background:none;border-radius:0;color:var(--turquoise);font-weight:600}.solo-price.combination-only{color:var(--red)}.loading,.error{background:none;border:0}.footer{border-top:1px solid var(--line)}
+body.dense .protein-banner,body.ultra .protein-banner{padding:0;background:none;border:0}body.dense .protein-heading,body.ultra .protein-heading{font-size:5.4px;margin:0}body.dense .protein-tag,body.ultra .protein-tag{font-size:7.344px;padding:0;border:0}body.ultra .content{column-gap:13.5px;padding-top:10.56px}body.ultra .category{padding:0;border-radius:0;margin-bottom:9.6px}body.ultra .item{padding:2.304px 0 3.456px}body.ultra .name{font-size:9.936px}body.ultra .price{font-size:9.72px}body.ultra .desc{font-size:7.128px;line-height:1.16}body[data-screen="Screen 2"] .item{padding:8.064px 0 9.6px}body[data-screen="Screen 2"] .category{margin-bottom:25.92px}
+/* Portrait list layout */
+.content{display:flex;flex-direction:column;align-content:initial;column-count:auto;column-gap:0;column-fill:auto}.category,.category.compact-category{display:block;flex:0 0 auto;width:100%;margin-bottom:13.44px;break-inside:auto}.category-head{margin-bottom:4.224px}.item{display:block;width:100%;padding:3.072px 0 4.224px}.name{font-size:14.472px}.price{font-size:12.96px}.desc{width:100%;font-size:9.072px;line-height:1.18}.protein-banner{margin-bottom:5.376px}.protein-tag,.protein-tag:nth-child(n),.protein-tag.upcharge{font-size:8.424px}.combination-details{max-width:100%}.combination-prices{grid-template-columns:repeat(4,minmax(0,1fr));gap:5.4px}.combination-price strong{font-size:9.504px}body.dense .name{font-size:12.96px}body.dense .price{font-size:11.88px}body.dense .desc{font-size:8.208px}body.dense .protein-tag{font-size:7.56px}
+@media (min-width:0px){html,body,.screen{width:1080px;height:1920px}.screen{padding:28.8px 48.6px 22.08px}.header{padding:6.72px 0 12.48px}.content{display:flex!important;flex-direction:column!important;column-count:auto!important;overflow:hidden;padding-top:8.64px}.category,.category.compact-category{display:block!important;width:100%!important;margin-bottom:8.064px}.item{width:100%;padding:1.92px 0 2.88px}.category-title,body.dense .category-title{font-size:20.52px}.name,body.dense .name{font-size:15.66px}.price,body.dense .price{font-size:14.256px}.desc,body.dense .desc{font-size:10.368px;line-height:1.16}.protein-heading,body.dense .protein-heading{font-size:6.696px}.protein-tag,body.dense .protein-tag{font-size:9.72px}.combination-details,body.dense .combination-details{font-size:8.424px}.combination-price small{font-size:6.696px}.combination-price strong{font-size:10.8px}}
+/* Visual hierarchy revision */
+.protein-banner,body.dense .protein-banner,body.ultra .protein-banner{display:flex;align-items:baseline;gap:8.1px;margin:3.072px 0 6.528px;padding:0;border:0;border-radius:0;background:none}
+.protein-heading,body.dense .protein-heading,body.ultra .protein-heading{flex:0 0 auto;margin:0;color:var(--red);font-size:calc(8.856px + 2pt);font-weight:700;letter-spacing:.12em}
+.protein-tags,body.ultra .protein-tags{display:flex;flex-wrap:wrap;align-items:baseline;gap:0;width:100%}
+.protein-tag,.protein-tag:nth-child(n),.protein-tag.upcharge,body.dense .protein-tag,body.ultra .protein-tag{display:inline;color:var(--ink);padding:0;border:0;border-radius:0;background:none;box-shadow:none;font-size:calc(12.096px + 2pt);font-weight:700;line-height:1.2}
+.protein-tag:not(:last-child):after{content:' · ';padding:0 4.104px;color:var(--gold)}
+.chile-options{gap:4.86px;margin-left:3.456px}.chile-dot{width:8.856px;height:8.856px}.section-chiles .chile-dot,.footer .chile-dot{width:7.344px;height:7.344px}.chile-dot.c-green{background:#2F8F55}.chile-dot.c-red{background:#C83F32}.chile-dot.c-xmas{background:linear-gradient(90deg,#2F8F55 0 50%,#C83F32 50% 100%)}
+.breakfast-hours{display:inline-block;margin-left:4.104px;color:var(--muted);font-size:11.34px;font-weight:600}.breakfast-hours:before{content:'·';margin-right:4.104px;color:var(--gold)}
+.combination-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3.456px 10.8px;margin-top:5.376px}
+.combination-choice{position:relative;display:block;margin:0;padding-left:11.34px}
+.combination-choice:before{content:'•';position:absolute;left:2.7px;color:var(--gold);font-size:calc(12.42px + 1pt);font-weight:700;line-height:1}
+.combination-choice .combination-name{margin-right:3.024px}
+.combination-details,body.dense .combination-details{font-size:calc(10.8px + 1pt);line-height:1.22}.combination-name{font-size:calc(11.34px + 1pt)}.solo-price,.solo-price.combination-only{font-size:calc(8.424px + 1pt)}.combination-price strong{font-size:11.664px}
+.breakfast-category .category-head{justify-content:flex-start}.breakfast-category .category-head .category-title{flex:0 0 auto}
+.item,body.dense .item,body.ultra .item{border-bottom:0!important}
+.item-badges{display:inline-flex;align-items:center;gap:3.24px;margin-right:4.536px;vertical-align:.08em}.menu-badge{display:inline-flex;align-items:center;justify-content:center;color:var(--red);font-style:normal;font-weight:800;line-height:1;white-space:nowrap}.badge-crown{width:13.5px;height:13.5px;border:1px solid currentColor;border-radius:50%;font-size:8.424px}.badge-best{padding:.18em .48em;border-left:3px solid var(--gold);background:rgba(184,134,62,.1);font-size:6.696px;letter-spacing:.04em}.badge-heart{font-size:13.824px;color:var(--red)}
+.combination-price{padding:0.96px 0.432px;line-height:1}.combination-price small{font-size:7.776px;line-height:1}.combination-price strong{font-size:12.744px;line-height:1}
+
+/* Rigid TV layout: one direct 1080x1920 canvas, rotated left without an iframe. */
+html,body{width:100%!important;height:100%!important;overflow:hidden!important;background:var(--paper,#F7F0E3)!important}
+body{display:block!important}
+body:before,body:after{display:none!important}
+.rigid-tv-canvas{position:fixed;left:50%;top:50%;margin-left:-540px;margin-top:-960px;width:1080px;height:1920px;overflow:hidden;background:var(--paper,#F7F0E3);transform-origin:center center;transform:rotate(-90deg) scale(var(--rigid-tv-scale,1));will-change:transform}
+.rigid-tv-canvas>.screen{width:1080px!important;height:1920px!important}
+/* One shared type scale, sized from the densest page (Screen 1). */
+.rigid-tv-canvas>.screen{padding:20px 32px 16px!important}
+.rigid-tv-canvas .header{padding:6px 0 10px!important}
+.rigid-tv-canvas .content{padding-top:8px!important}
+.rigid-tv-canvas .category{margin-bottom:8px!important}
+.rigid-tv-canvas .category-head{margin-bottom:4px!important;padding-bottom:3px!important}
+.rigid-tv-canvas .category-title{font-size:28px!important}
+.rigid-tv-canvas .item{padding:2px 0 3px!important}
+.rigid-tv-canvas .name{font-size:21px!important}
+.rigid-tv-canvas .price{font-size:19px!important}
+.rigid-tv-canvas .desc{font-size:13.5px!important;line-height:1.18!important}
+.rigid-tv-canvas .protein-banner{gap:8px!important;margin:2px 0 4px!important}
+.rigid-tv-canvas .protein-heading{font-size:15px!important}
+.rigid-tv-canvas .protein-tags{flex-wrap:nowrap!important;min-width:0!important}
+.rigid-tv-canvas .protein-tag{font-size:18px!important;min-width:0!important}
+.rigid-tv-canvas .protein-tag:not(:last-child):after{padding:0 3px!important}
+.rigid-tv-canvas .category-intro{font-size:13px!important}
+.rigid-tv-canvas .combination-details{margin:2px 0!important;padding:2px 0 2px 7px!important;font-size:13.5px!important;line-height:1.1!important}
+.rigid-tv-canvas .combination-lead{margin-bottom:2px!important}
+.rigid-tv-canvas .combination-prices{gap:4px!important;margin:2px 0 4px!important}
+.rigid-tv-canvas .combination-price{padding:2px 1px!important}
+.rigid-tv-canvas .combination-choice{column-gap:3px!important;margin:1px 0!important}
+.rigid-tv-canvas .combination-name{font-size:14px!important}
+.rigid-tv-canvas .combination-price small{font-size:9.5px!important}
+.rigid-tv-canvas .combination-price strong{font-size:14.5px!important}
+.rigid-tv-canvas .solo-price{font-size:10.5px!important}
+.rigid-tv-canvas .section-chiles{font-size:12px!important}
+.rigid-tv-canvas .footer{font-size:12.5px!important}
+/* Image carousel ticker.
+   LARGE keeps the original 300 px presentation.
+   COMPACT measures the live gap between the final menu line and the footer,
+   then scales the complete carousel proportionally so it cannot cover either. */
+.image-ticker{--ticker-height:300px;--ticker-bottom:0px;--ticker-card-width:300px;--ticker-card-height:280px;--ticker-card-margin:10px;--ticker-image-height:220px;--ticker-caption-height:60px;--ticker-caption-font:20px;position:fixed;left:0;right:0;bottom:var(--ticker-bottom);z-index:45;height:var(--ticker-height);display:none;overflow:hidden;background:var(--paper,#F7F0E3);border-top:3px solid var(--gold);box-shadow:0 -5px 18px rgba(53,42,32,.24)}
+.image-ticker.active{display:block}.image-ticker-track{display:flex;width:max-content;height:100%;animation:image-ticker-scroll var(--image-ticker-duration,70s) linear infinite;will-change:transform}.image-ticker-group{display:flex;flex:0 0 auto;gap:16px;padding-right:16px}.image-ticker-card{flex:0 0 var(--ticker-card-width);height:var(--ticker-card-height);margin:var(--ticker-card-margin) 0;overflow:hidden;border-radius:9px;background:#fffaf1;box-shadow:0 2px 8px rgba(0,0,0,.22)}.image-ticker-card img{display:block;width:var(--ticker-card-width);height:var(--ticker-image-height);object-fit:cover;background:#e9dcc8}.image-ticker-caption{height:var(--ticker-caption-height);display:flex;align-items:center;justify-content:center;padding:6px 12px;text-align:center;color:var(--ink);font-family:'Work Sans',Segoe UI,Arial,sans-serif;font-size:var(--ticker-caption-font);font-weight:700;line-height:1.12}.image-ticker-card.image-error{display:none}@keyframes image-ticker-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}body.image-ticker-visible:not(.image-ticker-compact) .screen{padding-bottom:316px!important}body.image-ticker-compact .screen{padding-bottom:16px!important}
+</style></head>
+<body data-screen="Screen 1"><div class="rigid-tv-canvas"><main class="screen"><header class="header"><div><h1>Arlene's Beans</h1><div class="kicker">New Mexican Kitchen</div></div><div class="screen-title">Breakfast · Tacos · Plates</div></header>
+<section id="content" class="content"><div class="loading">Connecting to Arlenes Menu…</div></section>
+<footer class="footer"><div>Screen 1 of 3</div><div class="chiles"><span class="chile-key"><i class="chile-dot c-green"></i>Green</span><span class="chile-key"><i class="chile-dot c-red"></i>Red</span><span class="chile-key"><i class="chile-dot c-xmas"></i>Christmas</span></div><div id="status" class="status">Starting…</div></footer></main><aside id="image-ticker" class="image-ticker" aria-hidden="true"><div class="image-ticker-track"></div></aside>
+</div><script>
+(function fitRigidLeft(){
+  function fitCanvas(){
+    const scale=Math.min(window.innerWidth/1920,window.innerHeight/1080);
+    document.documentElement.style.setProperty('--rigid-tv-scale',String(scale));
+  }
+  fitCanvas();
+  window.addEventListener('resize',fitCanvas,{passive:true});
+})();
+</script><script>
+const SPREADSHEET_ID = "1GTRoGkk0LvorgMhXi4d0cddFQ0-96VxBmJ9pOuN4od8";
+const SHEET_NAME = "Menu_Master";
+const TACOS_PANEL_SHEET = "Tacos Panel de control";
+const FUNCTIONS_SHEET = "Functions";
+const IMAGE_TICKER_SHEET = "Image Ticker";
+const TARGET_SCREEN = document.body.dataset.screen;
+const REFRESH_MS = 300000;
+const content = document.getElementById("content");
+const statusEl = document.getElementById("status");
+const imageTickerEl = document.getElementById("image-ticker");
+let imageTickerMode="large";
+const clean=v=>(v===null||v===undefined?"":String(v).trim());
+const truthy=v=>v===true||v===1||v==="1"||clean(v).toLowerCase()==="true";
+const esc=s=>clean(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+function val(cell){return !cell||cell.v===null||cell.v===undefined?"":cell.v}
+function rowsFrom(table){const h=table.cols.map((c,i)=>clean(c.label)||clean(c.id)||("COL_"+i));return table.rows.map(r=>{const o={};h.forEach((x,i)=>o[x]=val(r.c[i]));return o})}
+function priceOf(r){const p=clean(r.Price_Display);if(p)return p;const v=r.Base_Price;if(v===""||v==null)return "";const n=Number(String(v).replace(/[$,]/g,""));return Number.isFinite(n)?"$"+n.toFixed(2):clean(v)}
+function density(items){const score=items.length+items.filter(x=>clean(x.Description)).length*.38;document.body.classList.remove("dense","ultra");if(TARGET_SCREEN==="Screen 3"||score>46)document.body.classList.add("ultra");else if(score>30)document.body.classList.add("dense")}
+function panelData(table){
+ if(!table)return {items:new Map(),proteins:[]};
+ const raw=table.rows.map(r=>r.c.map(val)),items=new Map(),proteins=[];
+ let mode="";
+ for(const row of raw){
+   const first=clean(row[0]);
+   if(first==="Item_ID"){mode="items";continue}
+   if(first==="Protein_ID"){mode="proteins";continue}
+   if(first.startsWith("INSTRUCCIONES")){mode="";continue}
+   if(mode==="items"&&/^TACO/i.test(first))items.set(clean(row[2]),first);
+   if(mode==="proteins"&&/^PROT/i.test(first))proteins.push({id:first,active:row[1],name:row[2],priceType:row[3],price:row[4],order:row[5],showOn:row[10]});
+ }
+ proteins.sort((a,b)=>(Number(a.order)||99999)-(Number(b.order)||99999)||clean(a.name).localeCompare(clean(b.name)));
+ return {items,proteins};
+}
+function tagsFor(item,panel){
+ const itemName=clean(item.Display_Name),isProteinList=["protein available","available protein"].includes(itemName.toLowerCase());
+ const tacoId=panel.items.get(itemName);
+ if(!tacoId&&!isProteinList)return "";
+ const tags=panel.proteins.filter(p=>truthy(p.active)&&(isProteinList||clean(p.showOn).split(",").map(clean).includes(tacoId)));
+ if(!tags.length)return "";
+ return `<div class="protein-tags">${tags.map(p=>{const extra=clean(p.priceType).toLowerCase()==="upcharge",price=/carne asada/i.test(clean(p.name))?"$2.99":clean(p.price);return `<span class="protein-tag${extra?" upcharge":""}">${esc(p.name)}${extra&&price?" +"+esc(price):""}</span>`}).join("")}</div>`;
+}
+function isProteinBanner(item){return ["protein available","available protein","available proteins"].includes(clean(item.Display_Name).toLowerCase())}
+function groupUsesProteins(name){
+ const n=clean(name).toLowerCase();
+ return n.includes("breakfast")||n.includes("appetizer")||n.includes("tacos")||n.includes("taquitos")||n.includes("burrito")||n.includes("plate")||n.includes("entrée")||n.includes("entree");
+}
+function proteinBanner(panel){
+ const tags=tagsFor({Display_Name:"Protein Available"},panel);
+ return tags?`<article class="protein-banner"><div class="protein-heading">PROTEINS</div>${tags}</article>`:"";
+}
+const CHILE_ITEMS=new Set([
+ "enchilada plate","enchilada bowl","relleno plate","tamale & relleno plate","tamale plate","frito pie","asada fries","chile cheese tots","chile cheese fries","los padilla breakfast burrito jr","los padilla smothered breakfast burrito","breakfast chimichanga smothered","huevos rancheros","chile relleno solo with meat on top"
+]);
+function chileOptions(item){
+ const name=clean(item.Display_Name).toLowerCase().replace(/[.]+$/g,"");
+ if(name==="chicken wings")return `<div class="wing-options"><span class="buffalo">BUFFALO</span> • <span class="jalamango">JALAMANGO</span> • <span class="plain">PLAIN</span></div>`;
+ return CHILE_ITEMS.has(name)?`<span class="chile-options" aria-label="Green, red or Christmas chile"><i class="chile-dot c-green"></i><i class="chile-dot c-red"></i><i class="chile-dot c-xmas"></i></span>`:"";
+}
+function combinationDetails(item,description,priceDisplay){
+ if(clean(item.Display_Name).toLowerCase()!=="combination plate")return "";
+ const parts=clean(description).split("|").map(clean).filter(Boolean);
+ if(parts.length<2)return "";
+ const priceParts=clean(priceDisplay).split("/").map(clean).filter(Boolean);
+ const priceGrid=priceParts.length?`<div class="combination-prices">${priceParts.map(p=>{const m=p.match(/^(\d+)\s*items?\s*\$?(.+)$/i);return m?`<div class="combination-price"><small>${esc(m[1])} item${m[1]==="1"?"":"s"}</small><strong>$${esc(m[2])}</strong></div>`:`<div class="combination-price"><strong>${esc(p)}</strong></div>`}).join("")}</div>`:"";
+ const choices=`<div class="combination-choices">${parts.slice(1).map(line=>{
+   const i=line.indexOf(":"),rawName=clean(i>=0?line.slice(0,i):line),detail=i>=0?line.slice(i+1):"";
+   const badgeMatch=rawName.match(/\[([^\]]+)\]/),badge=badgeMatch?clean(badgeMatch[1]):"",name=clean(rawName.replace(/\s*\[[^\]]+\]\s*/," "));
+   const hasChile=false;
+   const badgeClass=/combination only/i.test(badge)?" combination-only":"";
+   return `<div class="combination-choice"><span class="combination-name">${esc(name)}</span>${badge?`<span class="solo-price${badgeClass}">${esc(badge)}</span>`:""}${hasChile?`<span class="chile-options" aria-label="Green, red or Christmas chile"><i class="chile-dot c-green"></i><i class="chile-dot c-red"></i><i class="chile-dot c-xmas"></i></span>`:""}${detail?`<span>${esc(detail)}</span>`:""}</div>`;
+ }).join("")}</div>`;
+ return `<div class="combination-details"><div class="combination-lead">${esc(parts[0])}</div>${priceGrid}${choices}</div>`;
+}
+function categoryClass(name){
+ const n=clean(name).toLowerCase();
+ if(n==="breakfast")return " breakfast-category";
+ return n==="chile"||n==="beverages"?" compact-category":"";
+}
+function categoryHeaderOptions(name){
+ const n=clean(name).toLowerCase();
+ if(n==="breakfast")return `<div class="breakfast-hours">Available until 2pm</div>`;
+ if(n!=="burritos in foil"&&n!=="smothered burritos")return "";
+ return `<div class="section-chiles"><span class="chile-key"><i class="chile-dot c-green"></i>Green</span><span class="chile-key"><i class="chile-dot c-red"></i>Red</span><span class="chile-key"><i class="chile-dot c-xmas"></i>Christmas</span></div>`;
+}
+function categoryIntro(name){
+ const n=clean(name).toLowerCase();
+ if(n==="burritos in foil")return `<div class="category-intro"><strong>Burrito Jr.:</strong> Smaller handheld burrito wrapped in foil—easy to grab and go.</div>`;
+ if(n==="smothered burritos")return `<div class="category-intro"><strong>Smothered Burrito:</strong> Flour-tortilla burrito covered with your choice of red, green or Christmas chile.</div>`;
+ return "";
+}
+function badgesFor(item){const b=badgesById.get(clean(item.Menu_ID));if(!b)return "";let out="";if(b.crown)out+=`<span class="menu-badge badge-crown" aria-label="House favorite">♛</span>`;if(b.best)out+=`<span class="menu-badge badge-best">BEST SELLER</span>`;if(b.heart)out+=`<span class="menu-badge badge-heart" aria-label="Favorite">♡</span>`;return out?`<span class="item-badges">${out}</span>`:""}
+/* Returns an element's vertical position inside the unrotated 1080 x 1920 canvas. */
+function canvasTop(el){let y=0;while(el&& !el.classList.contains("rigid-tv-canvas")){y+=el.offsetTop;el=el.offsetParent}return y}
+/* Applies LARGE or measures and scales COMPACT after the menu has rendered. */
+function layoutImageTicker(){
+ if(!imageTickerEl.classList.contains("active"))return;
+ const compact=imageTickerMode==="compact";
+ document.body.classList.toggle("image-ticker-compact",compact);
+ if(!compact){
+   [["--ticker-height","300px"],["--ticker-bottom","0px"],["--ticker-card-width","300px"],["--ticker-card-height","280px"],["--ticker-card-margin","10px"],["--ticker-image-height","220px"],["--ticker-caption-height","60px"],["--ticker-caption-font","20px"]].forEach(([k,v])=>imageTickerEl.style.setProperty(k,v));
+   imageTickerEl.hidden=false;return;
+ }
+ const finalLine=content.querySelector(".category:last-child .item:last-child")||content.querySelector(".category:last-child")||content;
+ const footer=document.querySelector(".footer"),lastBottom=canvasTop(finalLine)+finalLine.offsetHeight,footerTop=canvasTop(footer);
+ const safetyGap=12,available=Math.floor(footerTop-lastBottom-safetyGap),height=Math.min(300,Math.max(0,available));
+ /* If fewer than 96 px remain, hiding is safer than covering Combination Plate. */
+ if(height<96){imageTickerEl.hidden=true;return}
+ const cardHeight=Math.max(76,height-16),scale=cardHeight/280,cardWidth=Math.round(300*scale),imageHeight=Math.round(220*scale),captionHeight=cardHeight-imageHeight;
+ [["--ticker-height",height+"px"],["--ticker-bottom",(1920-footerTop)+"px"],["--ticker-card-width",cardWidth+"px"],["--ticker-card-height",cardHeight+"px"],["--ticker-card-margin","8px"],["--ticker-image-height",imageHeight+"px"],["--ticker-caption-height",captionHeight+"px"],["--ticker-caption-font",Math.max(11,Math.round(20*scale))+"px"]].forEach(([k,v])=>imageTickerEl.style.setProperty(k,v));
+ imageTickerEl.hidden=false;
+}
+function updateImageTicker(rows){
+ const setting=rows.find(r=>clean(r.Setting).toLowerCase()==="scroll_speed"),speed=Math.max(25,Math.min(180,Number(setting&&setting.Value)||70));
+ /* Image Ticker sheet selector: Setting = carousel_size; Value = compact or large. */
+ const sizeSetting=rows.find(r=>["carousel_size","display_size"].includes(clean(r.Setting).toLowerCase()));
+ const requested=clean(sizeSetting&&sizeSetting.Value).toLowerCase();imageTickerMode=["compact","adjusted","ajustado"].includes(requested)?"compact":"large";
+ const source=rows.filter(r=>truthy(r.Active)&&truthy(r[TARGET_SCREEN])&&clean(r.Image_URL)).sort((a,b)=>(Number(a.Display_Order)||99999)-(Number(b.Display_Order)||99999));
+ const active=source.length>0;imageTickerEl.classList.toggle("active",active);imageTickerEl.setAttribute("aria-hidden",active?"false":"true");document.body.classList.toggle("image-ticker-visible",active);document.body.classList.toggle("image-ticker-compact",active&&imageTickerMode==="compact");
+ if(!active){imageTickerEl.hidden=false;imageTickerEl.querySelector(".image-ticker-track").innerHTML="";return}
+ const items=[];while(items.length<Math.max(4,source.length))items.push(...source);const cards=items.map(r=>`<article class="image-ticker-card"><img src="${esc(r.Image_URL)}" alt="${esc(r.Description)}" onerror="this.closest('.image-ticker-card').classList.add('image-error')"><div class="image-ticker-caption">${esc(r.Description)}</div></article>`).join("");
+ const track=imageTickerEl.querySelector(".image-ticker-track");track.style.setProperty("--image-ticker-duration",speed+"s");track.innerHTML=`<div class="image-ticker-group">${cards}</div><div class="image-ticker-group" aria-hidden="true">${cards}</div>`;requestAnimationFrame(layoutImageTicker);
+}
+function render(rows,panelTable){
+ const panel=panelData(panelTable);
+ let items=rows.filter(r=>truthy(r.Active)&&clean(r.Screen_Suggestion)===TARGET_SCREEN&&!(TARGET_SCREEN==="Screen 3"&&/^(beverages|alcohol drinks)$/i.test(clean(r.Display_Category))));
+ items.sort((a,b)=>(Number(a.Display_Order)||99999)-(Number(b.Display_Order)||99999)||clean(a.Display_Name).localeCompare(clean(b.Display_Name)));
+ density(items);
+ const groups=[],map=new Map();
+ for(const item of items){const c=clean(item.Display_Category)||"Menu";if(!map.has(c)){const g={name:c,items:[]};map.set(c,g);groups.push(g)}map.get(c).items.push(item)}
+ const categoryOrder=["breakfast","tacos & taquitos","plates"];
+ groups.sort((a,b)=>categoryOrder.indexOf(clean(a.name).toLowerCase())-categoryOrder.indexOf(clean(b.name).toLowerCase()));
+ if(!groups.length){content.innerHTML=`<div class="error"><strong>No items assigned to ${esc(TARGET_SCREEN)}.</strong><br>Check Active and Screen_Suggestion in Menu_Master.</div>`;return}
+ content.innerHTML=groups.map(g=>`<section class="category${categoryClass(g.name)}"><div class="category-head"><h2 class="category-title">${esc(g.name)}</h2>${categoryHeaderOptions(g.name)}</div>${categoryIntro(g.name)}${groupUsesProteins(g.name)?proteinBanner(panel):""}${g.items.map(item=>{if(isProteinBanner(item))return "";const rawPrice=priceOf(item),itemName=clean(item.Display_Name).toLowerCase().replace(/[.]+$/g,""),hideBreakfastChileText=["los padilla breakfast burrito jr","los padilla smothered breakfast burrito","breakfast chimichanga smothered"].includes(itemName),hideVariant=["burritos in foil","smothered burritos"].includes(clean(g.name).toLowerCase())||hideBreakfastChileText,v=hideVariant?"":clean(item.Variant_or_Size),d=clean(item.Dietary),x=clean(item.Description),combo=combinationDetails(item,x,rawPrice),p=combo?"":rawPrice,chile=chileOptions(item);return `<article class="item"><div class="top"><span class="name">${badgesFor(item)}${esc(item.Display_Name)}</span>${chile}${p?`<span class="dots"></span><span class="price">${esc(p)}</span>`:""}</div>${combo||((v||x||d)?`<div class="desc">${v?`<span class="variant">${esc(v)}</span>${x?" · ":""}`:""}${x?esc(x):""}${d?` <span class="dietary">(${esc(d)})</span>`:""}</div>`:"")}${tagsFor(item,panel)}</article>`}).join("")}</section>`).join("");
+ statusEl.textContent="Synced "+new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});requestAnimationFrame(layoutImageTicker);
+}
+function fail(m){statusEl.textContent="Connection error";content.innerHTML=`<div class="error"><strong>Google Sheets could not be loaded.</strong><br>${esc(m)}<br><small>Keep the Sheet shared as Anyone with the link – Viewer.</small></div>`}
+let masterRows=[],tacosPanel=null,badgesById=new Map();
+window.arlenesMenuCallback=function(resp){try{if(!resp||!resp.table)throw new Error("Google returned no table data.");masterRows=rowsFrom(resp.table);render(masterRows,tacosPanel)}catch(e){fail(e.message||String(e))}};
+window.arlenesTacosCallback=function(resp){if(resp&&resp.table){tacosPanel=resp.table;if(masterRows.length)render(masterRows,tacosPanel)}};
+window.arlenesFunctionsCallback=function(resp){if(resp&&resp.table){badgesById=new Map(rowsFrom(resp.table).filter(r=>clean(r.Menu_ID)).map(r=>[clean(r.Menu_ID),{crown:truthy(r.Crown),best:truthy(r["Best Seller"]),heart:truthy(r.Heart)}]));if(masterRows.length)render(masterRows,tacosPanel)}};
+window.arlenesImageTickerCallback=function(resp){if(resp&&resp.table)updateImageTicker(rowsFrom(resp.table))};
+function addSheetLoader(id,sheet,callback,headers){const old=document.getElementById(id);if(old)old.remove();const s=document.createElement("script");s.id=id;s.src="https://docs.google.com/spreadsheets/d/"+SPREADSHEET_ID+"/gviz/tq?sheet="+encodeURIComponent(sheet)+"&tqx=responseHandler:"+callback+"&tq="+encodeURIComponent("select *")+"&headers="+headers+"&_="+Date.now();s.onerror=()=>{if(sheet===SHEET_NAME)fail("The Google Sheets endpoint did not respond.")};document.body.appendChild(s)}
+function load(){statusEl.textContent="Syncing…";addSheetLoader("gsheet-loader",SHEET_NAME,"arlenesMenuCallback",1);addSheetLoader("tacos-panel-loader",TACOS_PANEL_SHEET,"arlenesTacosCallback",0);addSheetLoader("functions-loader",FUNCTIONS_SHEET,"arlenesFunctionsCallback",1);addSheetLoader("image-ticker-loader",IMAGE_TICKER_SHEET,"arlenesImageTickerCallback",1)}
+load();setInterval(load,REFRESH_MS);
+</script></body></html>
