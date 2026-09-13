@@ -6,9 +6,11 @@
     return String(s || '').replace(/\s+/g,' ').trim().toLowerCase();
   }
 
+  // Screen 3 may receive the category from Sheets as "Bulk",
+  // "Retail / Bulk", "Retail Bulk", etc.  Matching Bulk alone keeps
+  // the layout reliable without changing any typography.
   function isBulkTitle(text){
-    const n = normalize(text);
-    return n.includes('bulk') && n.includes('retail');
+    return normalize(text).includes('bulk');
   }
 
   function findSourceSection(title){
@@ -32,7 +34,11 @@
     const source = findSourceSection(title);
     if (!source) return false;
 
-    const items = [...source.querySelectorAll(':scope > .item')];
+    // Use every menu item belonging to the Bulk section.  Standard Screen 3
+    // categories render items directly under the section, but this fallback
+    // also survives a future wrapper added around them.
+    let items = [...source.children].filter(el => el.classList && el.classList.contains('item'));
+    if (items.length < 2) items = [...source.querySelectorAll('.item')];
     if (items.length < 2) return false;
 
     const table = doc.createElement('section');
