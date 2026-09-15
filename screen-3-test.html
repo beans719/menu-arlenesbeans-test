@@ -1,1 +1,29 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"><title>Arlene's Beans — Screen 3 TEST TV Preview</title><style>html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#F7F0E3}body{position:fixed;inset:0}#menu-frame{position:absolute;left:50%;top:50%;width:100vh;height:100vw;border:0;margin:0;display:block;transform:translate(-50%,-50%) rotate(90deg);transform-origin:center center;background:#F7F0E3}</style></head><body><iframe id="menu-frame" src="screen-3-portrait.html?v=20260914-badges" title="Arlene's Beans Screen 3 TV Preview"></iframe><script src="gf-enhancer.js?v=20260914-badges"></script><script src="screen-3-table-enhancer.js?v=20260914-badges"></script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"><title>Arlene's Beans — Screen 3 TEST TV Preview</title><style>html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#F7F0E3}body{position:fixed;inset:0}#menu-frame{position:absolute;left:50%;top:50%;width:100vh;height:100vw;border:0;margin:0;display:block;transform:translate(-50%,-50%) rotate(90deg);transform-origin:center center;background:#F7F0E3}</style></head><body><iframe id="menu-frame" src="screen-3-portrait.html?v=20260915-bulk-two-column" title="Arlene's Beans Screen 3 TV Preview"></iframe><script src="gf-enhancer.js?v=20260915-bulk-two-column"></script><script>
+(() => {
+  const frame=document.getElementById('menu-frame');
+  if(!frame)return;
+  const clean=s=>String(s||'').replace(/\s+/g,' ').trim().toLowerCase();
+  function applyBulkTable(){
+    let doc;try{doc=frame.contentDocument||frame.contentWindow.document}catch(_){return}
+    if(!doc||!doc.body)return;
+    let style=doc.getElementById('screen3-bulk-two-column-style');
+    if(!style){
+      style=doc.createElement('style');style.id='screen3-bulk-two-column-style';
+      style.textContent='.bulk-two-column{position:relative;width:100%;margin:1.536px 0 8.064px;padding:8.064px 9.72px 8.832px;border:1px solid rgba(53,42,32,.28);border-radius:6px;background:transparent}.bulk-two-column .category-head{margin-bottom:3.84px}.bulk-two-column .bulk-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:23.76px}.bulk-two-column .bulk-items .item{padding:1.728px 0 2.496px!important}.bulk-two-column .bulk-items .item:nth-child(even){padding-left:11.88px;border-left:1px solid var(--line)!important}.bulk-two-column .name{font-size:13.176px!important}.bulk-two-column .price{font-size:12.312px!important}.bulk-two-column .desc{font-size:8.64px!important}';
+      doc.head.appendChild(style);
+    }
+    if(doc.querySelector('.bulk-two-column'))return;
+    const title=[...doc.querySelectorAll('.category-title,h2')].find(el=>clean(el.textContent).includes('bulk'));
+    if(!title)return;
+    const source=title.closest('section');if(!source)return;
+    const items=[...source.querySelectorAll(':scope > .item')];if(items.length<2)return;
+    const table=doc.createElement('section');table.className='bulk-two-column';
+    const head=doc.createElement('div');head.className='category-head';
+    const heading=doc.createElement('h2');heading.className='category-title';heading.textContent=title.textContent.trim();head.appendChild(heading);
+    const grid=doc.createElement('div');grid.className='bulk-items';items.forEach(item=>grid.appendChild(item));
+    table.append(head,grid);source.replaceWith(table);
+  }
+  function activate(){applyBulkTable();[100,300,700,1200,2200,4000].forEach(ms=>setTimeout(applyBulkTable,ms));let doc;try{doc=frame.contentDocument||frame.contentWindow.document}catch(_){return}if(doc&&doc.body&&!doc.body.dataset.bulkTwoColumnObserver){doc.body.dataset.bulkTwoColumnObserver='1';new MutationObserver(applyBulkTable).observe(doc.body,{childList:true,subtree:true});}}
+  frame.addEventListener('load',activate);if(frame.contentDocument&&frame.contentDocument.readyState!=='loading')activate();
+})();
+</script></body></html>
