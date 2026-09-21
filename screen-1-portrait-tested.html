@@ -218,7 +218,8 @@ function chileOptions(item){
  if(selected==="xmas"||selected==="christmas")return `<span class="chile-options cms-chile-indicator" aria-label="Christmas chile"><i class="chile-dot c-xmas"></i></span>`;
  if(selected==="none")return "";
  const name=clean(item.Display_Name).toLowerCase().replace(/[.]+$/g,"");
- if(name==="chicken wings")return `<div class="wing-options"><span class="buffalo">BUFFALO</span> • <span class="jalamango">JALAMANGO</span> • <span class="plain">PLAIN</span></div>`;\n return CHILE_ITEMS.has(name)?`<span class="chile-options" aria-label="Green, red or Christmas chile"><i class="chile-dot c-green"></i><i class="chile-dot c-red"></i><i class="chile-dot c-xmas"></i></span>`:"";
+ if(name==="chicken wings")return `<div class="wing-options"><span class="buffalo">BUFFALO</span> • <span class="jalamango">JALAMANGO</span> • <span class="plain">PLAIN</span></div>`;
+ return CHILE_ITEMS.has(name)?`<span class="chile-options" aria-label="Green, red or Christmas chile"><i class="chile-dot c-green"></i><i class="chile-dot c-red"></i><i class="chile-dot c-xmas"></i></span>`:"";
 }
 function combinationDetails(item,description,priceDisplay){
  if(clean(item.Display_Name).toLowerCase()!=="combination plate")return "";
