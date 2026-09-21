@@ -134,7 +134,7 @@ body:before,body:after{display:none!important}
 .rigid-tv-canvas .footer{font-size:12.5px!important}
 /* 7. Carrusel fotográfico opcional. Usa el mismo fondo crema del menú. */
 .image-ticker{position:fixed;left:0;right:0;bottom:0;z-index:45;height:300px;display:none;overflow:hidden;background:var(--paper,#F7F0E3);border-top:3px solid var(--gold);box-shadow:0 -5px 18px rgba(53,42,32,.24)}.image-ticker.active{display:block}.image-ticker-track{display:flex;width:max-content;height:100%;animation:image-ticker-scroll var(--image-ticker-duration,70s) linear infinite;will-change:transform}.image-ticker-group{display:flex;flex:0 0 auto;gap:16px;padding-right:16px}.image-ticker-card{flex:0 0 300px;height:280px;margin:10px 0;overflow:hidden;border-radius:9px;background:#fffaf1;box-shadow:0 2px 8px rgba(0,0,0,.22)}.image-ticker-card img{display:block;width:300px;height:220px;object-fit:cover;background:#e9dcc8}.image-ticker-caption{height:60px;display:flex;align-items:center;justify-content:center;padding:6px 12px;text-align:center;color:var(--ink);font-family:'Work Sans',Segoe UI,Arial,sans-serif;font-size:20px;font-weight:700;line-height:1.12}.image-ticker-card.image-error{display:none}@keyframes image-ticker-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}body.image-ticker-visible .screen{padding-bottom:316px!important}body.image-ticker-visible .special-ticker{bottom:300px}body.image-ticker-visible.ticker-visible .screen{padding-bottom:395px!important}
-</style></head>
+.cms-badge{white-space:nowrap}.badge-gf{color:#2F7755!important;border-color:rgba(47,119,85,.55)!important}.badge-featured{color:#8C3B2E!important}.badge-new{color:#356F68!important}.cms-chile-indicator{flex:0 0 auto}</style></head>
 <body data-screen="Screen 2"><div class="rigid-tv-canvas"><main class="screen"><header class="header"><div><h1>Arlene's Beans</h1><div class="kicker">New Mexican Kitchen</div></div><div class="screen-title">Burritos in Foil · Smothered Burritos</div></header>
 <section id="content" class="content"><div class="loading">Connecting to Arlenes Menu…</div></section>
 <footer class="footer"><div>Screen 2 of 3</div><div class="chiles"><span class="chile-key"><i class="chile-dot c-green"></i>Green</span><span class="chile-key"><i class="chile-dot c-red"></i>Red</span><span class="chile-key"><i class="chile-dot c-xmas"></i>Christmas</span></div><div id="status" class="status">Starting…</div></footer></main><aside id="special-ticker" class="special-ticker" aria-hidden="true"><div class="special-ticker-track"><span class="special-ticker-copy"></span><span class="special-ticker-copy" aria-hidden="true"></span></div></aside><aside id="image-ticker" class="image-ticker" aria-hidden="true"><div class="image-ticker-track"></div></aside>
@@ -221,9 +221,13 @@ const CHILE_ITEMS=new Set([
  "enchilada plate","enchilada bowl","relleno plate","tamale & relleno plate","tamale plate","frito pie","asada fries","chile cheese tots","chile cheese fries","los padilla breakfast burrito jr","los padilla smothered","breakfast chimichanga","huevos rancheros","chile relleno solo with meat on top"
 ]);
 function chileOptions(item){
+ const selected=clean(item.Chile_Indicator).toLowerCase();
+ if(selected==="green")return `<span class="chile-options cms-chile-indicator" aria-label="Green chile"><i class="chile-dot c-green"></i></span>`;
+ if(selected==="red")return `<span class="chile-options cms-chile-indicator" aria-label="Red chile"><i class="chile-dot c-red"></i></span>`;
+ if(selected==="xmas"||selected==="christmas")return `<span class="chile-options cms-chile-indicator" aria-label="Christmas chile"><i class="chile-dot c-xmas"></i></span>`;
+ if(selected==="none")return "";
  const name=clean(item.Display_Name).toLowerCase().replace(/[.]+$/g,"");
- if(name==="chicken wings")return `<div class="wing-options"><span class="buffalo">BUFFALO</span> • <span class="jalamango">JALAMANGO</span> • <span class="plain">PLAIN</span></div>`;
- return CHILE_ITEMS.has(name)?`<span class="chile-options" aria-label="Green, red or Christmas chile"><i class="chile-dot c-green"></i><i class="chile-dot c-red"></i><i class="chile-dot c-xmas"></i></span>`:"";
+ if(name==="chicken wings")return `<div class="wing-options"><span class="buffalo">BUFFALO</span> • <span class="jalamango">JALAMANGO</span> • <span class="plain">PLAIN</span></div>`;\n return CHILE_ITEMS.has(name)?`<span class="chile-options" aria-label="Green, red or Christmas chile"><i class="chile-dot c-green"></i><i class="chile-dot c-red"></i><i class="chile-dot c-xmas"></i></span>`:"";
 }
 function combinationDetails(item,description,priceDisplay){
  if(clean(item.Display_Name).toLowerCase()!=="combination plate")return "";
@@ -256,7 +260,7 @@ function categoryIntro(name){
  if(n==="smothered burritos")return `<div class="category-intro"><strong>Smothered Burrito:</strong> Flour-tortilla burrito covered with your choice of red, green or Christmas chile.</div>`;
  return "";
 }
-function badgesFor(item){const b=badgesById.get(clean(item.Menu_ID));if(!b)return "";let out="";if(b.crown)out+=`<span class="menu-badge badge-crown" aria-label="House favorite">♛</span>`;if(b.best)out+=`<span class="menu-badge badge-best">BEST SELLER</span>`;if(b.heart)out+=`<span class="menu-badge badge-heart" aria-label="Favorite">♡</span>`;return out?`<span class="item-badges">${out}</span>`:""}
+function badgesFor(item){const b=badgesById.get(clean(item.Menu_ID));let out="";if(b){if(b.crown)out+=`<span class="menu-badge badge-crown" aria-label="House favorite">♛</span>`;if(b.best)out+=`<span class="menu-badge badge-best">BEST SELLER</span>`;if(b.heart)out+=`<span class="menu-badge badge-heart" aria-label="Favorite">♡</span>`;}const cms=clean(item.Badges).split(",").map(x=>x.trim()).filter(Boolean);for(const badge of cms){const k=badge.toLowerCase();if(k==="best seller"&&!/BEST SELLER/.test(out))out+=`<span class="menu-badge badge-best cms-badge">BEST SELLER</span>`;else if(k==="gluten friendly")out+=`<span class="menu-badge cms-badge badge-gf">GF</span>`;else if(k==="featured")out+=`<span class="menu-badge cms-badge badge-featured">FEATURED</span>`;else if(k==="new")out+=`<span class="menu-badge cms-badge badge-new">NEW</span>`;}return out?`<span class="item-badges">${out}</span>`:""}
 /* Filtra las fotos marcadas para Screen 2 y crea un bucle visual infinito. */
 function updateImageTicker(rows){
  const setting=rows.find(r=>clean(r.Setting).toLowerCase()==="scroll_speed"),speed=Math.max(25,Math.min(180,Number(setting&&setting.Value)||70));
