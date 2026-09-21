@@ -124,7 +124,7 @@ body:before,body:after{display:none!important}
    then scales the complete carousel proportionally so it cannot cover either. */
 .image-ticker{--ticker-height:300px;--ticker-bottom:0px;--ticker-card-width:300px;--ticker-card-height:280px;--ticker-card-margin:10px;--ticker-image-height:220px;--ticker-caption-height:60px;--ticker-caption-font:20px;position:fixed;left:0;right:0;bottom:var(--ticker-bottom);z-index:45;height:var(--ticker-height);display:none;overflow:hidden;background:var(--paper,#F7F0E3);border-top:3px solid var(--gold);box-shadow:0 -5px 18px rgba(53,42,32,.24)}
 .image-ticker.active{display:block}.image-ticker-track{display:flex;width:max-content;height:100%;animation:image-ticker-scroll var(--image-ticker-duration,70s) linear infinite;will-change:transform}.image-ticker-group{display:flex;flex:0 0 auto;gap:16px;padding-right:16px}.image-ticker-card{flex:0 0 var(--ticker-card-width);height:var(--ticker-card-height);margin:var(--ticker-card-margin) 0;overflow:hidden;border-radius:9px;background:#fffaf1;box-shadow:0 2px 8px rgba(0,0,0,.22)}.image-ticker-card img{display:block;width:var(--ticker-card-width);height:var(--ticker-image-height);object-fit:cover;background:#e9dcc8}.image-ticker-caption{height:var(--ticker-caption-height);display:flex;align-items:center;justify-content:center;padding:6px 12px;text-align:center;color:var(--ink);font-family:'Work Sans',Segoe UI,Arial,sans-serif;font-size:var(--ticker-caption-font);font-weight:700;line-height:1.12}.image-ticker-card.image-error{display:none}@keyframes image-ticker-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}body.image-ticker-visible:not(.image-ticker-compact) .screen{padding-bottom:316px!important}body.image-ticker-compact .screen{padding-bottom:16px!important}
-</style></head>
+.cms-badge{white-space:nowrap}.badge-gf{color:#2F7755!important;border-color:rgba(47,119,85,.55)!important}.badge-featured{color:#8C3B2E!important}.badge-new{color:#356F68!important}.cms-chile-indicator{flex:0 0 auto}</style></head>
 <body data-screen="Screen 1"><div class="rigid-tv-canvas"><main class="screen"><header class="header"><div><h1>Arlene's Beans</h1><div class="kicker">New Mexican Kitchen</div></div><div class="screen-title">Breakfast · Tacos · Plates</div></header>
 <section id="content" class="content"><div class="loading">Connecting to Arlenes Menu…</div></section>
 <footer class="footer"><div>Screen 1 of 3</div><div class="chiles"><span class="chile-key"><i class="chile-dot c-green"></i>Green</span><span class="chile-key"><i class="chile-dot c-red"></i>Red</span><span class="chile-key"><i class="chile-dot c-xmas"></i>Christmas</span></div><div id="status" class="status">Starting…</div></footer></main><aside id="image-ticker" class="image-ticker" aria-hidden="true"><div class="image-ticker-track"></div></aside>
@@ -212,9 +212,13 @@ const CHILE_ITEMS=new Set([
  "enchilada plate","enchilada bowl","relleno plate","tamale & relleno plate","tamale plate","frito pie","asada fries","chile cheese tots","chile cheese fries","los padilla breakfast burrito jr","los padilla smothered breakfast burrito","breakfast chimichanga smothered","huevos rancheros","chile relleno solo with meat on top"
 ]);
 function chileOptions(item){
+ const selected=clean(item.Chile_Indicator).toLowerCase();
+ if(selected==="green")return `<span class="chile-options cms-chile-indicator" aria-label="Green chile"><i class="chile-dot c-green"></i></span>`;
+ if(selected==="red")return `<span class="chile-options cms-chile-indicator" aria-label="Red chile"><i class="chile-dot c-red"></i></span>`;
+ if(selected==="xmas"||selected==="christmas")return `<span class="chile-options cms-chile-indicator" aria-label="Christmas chile"><i class="chile-dot c-xmas"></i></span>`;
+ if(selected==="none")return "";
  const name=clean(item.Display_Name).toLowerCase().replace(/[.]+$/g,"");
- if(name==="chicken wings")return `<div class="wing-options"><span class="buffalo">BUFFALO</span> • <span class="jalamango">JALAMANGO</span> • <span class="plain">PLAIN</span></div>`;
- return CHILE_ITEMS.has(name)?`<span class="chile-options" aria-label="Green, red or Christmas chile"><i class="chile-dot c-green"></i><i class="chile-dot c-red"></i><i class="chile-dot c-xmas"></i></span>`:"";
+ if(name==="chicken wings")return `<div class="wing-options"><span class="buffalo">BUFFALO</span> • <span class="jalamango">JALAMANGO</span> • <span class="plain">PLAIN</span></div>`;\n return CHILE_ITEMS.has(name)?`<span class="chile-options" aria-label="Green, red or Christmas chile"><i class="chile-dot c-green"></i><i class="chile-dot c-red"></i><i class="chile-dot c-xmas"></i></span>`:"";
 }
 function combinationDetails(item,description,priceDisplay){
  if(clean(item.Display_Name).toLowerCase()!=="combination plate")return "";
@@ -248,7 +252,7 @@ function categoryIntro(name){
  if(n==="smothered burritos")return `<div class="category-intro"><strong>Smothered Burrito:</strong> Flour-tortilla burrito covered with your choice of red, green or Christmas chile.</div>`;
  return "";
 }
-function badgesFor(item){const b=badgesById.get(clean(item.Menu_ID));if(!b)return "";let out="";if(b.crown)out+=`<span class="menu-badge badge-crown" aria-label="House favorite">♛</span>`;if(b.best)out+=`<span class="menu-badge badge-best">BEST SELLER</span>`;if(b.heart)out+=`<span class="menu-badge badge-heart" aria-label="Favorite">♡</span>`;return out?`<span class="item-badges">${out}</span>`:""}
+function badgesFor(item){const b=badgesById.get(clean(item.Menu_ID));let out="";if(b){if(b.crown)out+=`<span class="menu-badge badge-crown" aria-label="House favorite">♛</span>`;if(b.best)out+=`<span class="menu-badge badge-best">BEST SELLER</span>`;if(b.heart)out+=`<span class="menu-badge badge-heart" aria-label="Favorite">♡</span>`;}const cms=clean(item.Badges).split(",").map(x=>x.trim()).filter(Boolean);for(const badge of cms){const k=badge.toLowerCase();if(k==="best seller"&&!/BEST SELLER/.test(out))out+=`<span class="menu-badge badge-best cms-badge">BEST SELLER</span>`;else if(k==="gluten friendly")out+=`<span class="menu-badge cms-badge badge-gf">GF</span>`;else if(k==="featured")out+=`<span class="menu-badge cms-badge badge-featured">FEATURED</span>`;else if(k==="new")out+=`<span class="menu-badge cms-badge badge-new">NEW</span>`;}return out?`<span class="item-badges">${out}</span>`:""}
 /* Returns an element's vertical position inside the unrotated 1080 x 1920 canvas. */
 function canvasTop(el){let y=0;while(el&& !el.classList.contains("rigid-tv-canvas")){y+=el.offsetTop;el=el.offsetParent}return y}
 /* Applies LARGE or measures and scales COMPACT after the menu has rendered. */
