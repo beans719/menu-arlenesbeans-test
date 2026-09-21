@@ -110,7 +110,15 @@ body:before,body:after{display:none!important}
 .rigid-tv-canvas .footer{font-size:12.5px!important}
 /* Image carousel ticker */
 .image-ticker{position:fixed;left:0;right:0;bottom:0;z-index:45;height:300px;display:none;overflow:hidden;background:#201912;border-top:3px solid var(--gold);box-shadow:0 -5px 18px rgba(53,42,32,.24)}.image-ticker.active{display:block}.image-ticker-track{display:flex;width:max-content;height:100%;animation:image-ticker-scroll var(--image-ticker-duration,70s) linear infinite;will-change:transform}.image-ticker-group{display:flex;flex:0 0 auto;gap:16px;padding-right:16px}.image-ticker-card{flex:0 0 300px;height:280px;margin:10px 0;overflow:hidden;border-radius:9px;background:#fffaf1;box-shadow:0 2px 8px rgba(0,0,0,.22)}.image-ticker-card img{display:block;width:300px;height:220px;object-fit:cover;background:#e9dcc8}.image-ticker-caption{height:60px;display:flex;align-items:center;justify-content:center;padding:6px 12px;text-align:center;color:var(--ink);font-family:'Work Sans',Segoe UI,Arial,sans-serif;font-size:20px;font-weight:700;line-height:1.12}.image-ticker-card.image-error{display:none}@keyframes image-ticker-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}body.image-ticker-visible .screen{padding-bottom:316px!important}
-.cms-badge{white-space:nowrap}.badge-gf{color:#2F7755!important;border-color:rgba(47,119,85,.55)!important}.badge-featured{color:#8C3B2E!important}.badge-new{color:#356F68!important}.cms-chile-indicator{flex:0 0 auto}</style></head>
+.cms-chile-indicator{flex:0 0 auto}
+.item-badges{gap:5px!important;margin-right:6px!important;vertical-align:.06em!important}
+.menu-badge{box-sizing:border-box;white-space:nowrap;font-family:'Work Sans',Segoe UI,Arial,sans-serif!important}
+.badge-best{gap:4px!important;padding:3px 7px!important;border:1px solid #C98518!important;border-left:1px solid #C98518!important;border-radius:999px!important;background:#F3C64E!important;color:#542F08!important;box-shadow:0 1px 0 rgba(84,47,8,.18)!important;font-size:9px!important;font-weight:900!important;letter-spacing:.035em!important}
+.badge-best .badge-star{font-size:10px!important;line-height:1!important;color:#8D4D08!important}
+.badge-featured,.badge-new{gap:4px!important;padding:3px 7px!important;border:1px solid currentColor!important;border-radius:999px!important;font-size:8.5px!important;font-weight:900!important;letter-spacing:.045em!important;background:rgba(255,250,241,.92)!important}
+.badge-featured{color:#9B302A!important;background:rgba(155,48,42,.08)!important}.badge-new{color:#2F7773!important;background:rgba(47,119,115,.09)!important}.badge-mark{font-size:8px!important}
+.gf-friendly-badge.native-gf-badge{display:inline-flex!important;align-items:center!important;justify-content:center!important;vertical-align:middle!important;margin-left:5px!important;padding:2px 6px 2.5px!important;min-width:25px!important;border:1px solid rgba(87,105,74,.68)!important;border-radius:999px!important;background:rgba(87,105,74,.10)!important;color:#57694A!important;font-family:'Work Sans',Segoe UI,Arial,sans-serif!important;font-size:.72em!important;line-height:1.05!important;font-weight:800!important;letter-spacing:.045em!important;white-space:nowrap!important}
+.gf-friendly-badge.native-gf-badge::before{content:'';display:inline-block;width:5px;height:8px;margin-right:3px;border-radius:80% 0 80% 0;background:currentColor;transform:rotate(-32deg);opacity:.9}</style></head>
 <body data-screen="Screen 3"><div class="rigid-tv-canvas"><main class="screen"><header class="header"><div><h1>Arlene's Beans</h1><div class="kicker">New Mexican Kitchen</div></div><div class="screen-title">Appetizers · Family Style · Bulk · Sides / Add-ons · Chile · Dessert</div></header>
 <section id="content" class="content"><div class="loading">Connecting to Arlenes Menu…</div></section>
 <footer class="footer"><div>Screen 3 of 3</div><div class="chiles"><span class="chile-key"><i class="chile-dot c-green"></i>Green</span><span class="chile-key"><i class="chile-dot c-red"></i>Red</span><span class="chile-key"><i class="chile-dot c-xmas"></i>Christmas</span></div><div id="status" class="status">Starting…</div></footer></main><aside id="image-ticker" class="image-ticker" aria-hidden="true"><div class="image-ticker-track"></div></aside>
@@ -218,7 +226,17 @@ function categoryIntro(name){
  if(n==="smothered burritos")return `<div class="category-intro"><strong>Smothered Burrito:</strong> Flour-tortilla burrito covered with your choice of red, green or Christmas chile.</div>`;
  return "";
 }
-function badgesFor(item){const b=badgesById.get(clean(item.Menu_ID));let out="";if(b){if(b.crown)out+=`<span class="menu-badge badge-crown" aria-label="House favorite">♛</span>`;if(b.best)out+=`<span class="menu-badge badge-best">BEST SELLER</span>`;if(b.heart)out+=`<span class="menu-badge badge-heart" aria-label="Favorite">♡</span>`;}const cms=clean(item.Badges).split(",").map(x=>x.trim()).filter(Boolean);for(const badge of cms){const k=badge.toLowerCase();if(k==="best seller"&&!/BEST SELLER/.test(out))out+=`<span class="menu-badge badge-best cms-badge">BEST SELLER</span>`;else if(k==="gluten friendly")out+=`<span class="menu-badge cms-badge badge-gf">GF</span>`;else if(k==="featured")out+=`<span class="menu-badge cms-badge badge-featured">FEATURED</span>`;else if(k==="new")out+=`<span class="menu-badge cms-badge badge-new">NEW</span>`;}return out?`<span class="item-badges">${out}</span>`:""}
+function badgesFor(item){
+ const legacy=badgesById.get(clean(item.Menu_ID));
+ const cms=clean(item.Badges).split(",").map(x=>x.trim().toLowerCase()).filter(Boolean);
+ let out="";
+ if(legacy&&legacy.crown)out+=`<span class="menu-badge badge-crown" aria-label="House favorite">♛</span>`;
+ if((legacy&&legacy.best)||cms.includes("best seller"))out+=`<span class="menu-badge badge-best" aria-label="Best Seller"><span class="badge-star">★</span><span>BEST SELLER</span></span>`;
+ if(legacy&&legacy.heart)out+=`<span class="menu-badge badge-heart" aria-label="Favorite">♡</span>`;
+ if(cms.includes("featured"))out+=`<span class="menu-badge badge-featured" aria-label="Featured"><span class="badge-mark">◆</span><span>FEATURED</span></span>`;
+ if(cms.includes("new"))out+=`<span class="menu-badge badge-new" aria-label="New"><span class="badge-mark">✦</span><span>NEW</span></span>`;
+ return out?`<span class="item-badges">${out}</span>`:"";
+}
 function updateImageTicker(rows){
  const setting=rows.find(r=>clean(r.Setting).toLowerCase()==="scroll_speed"),speed=Math.max(25,Math.min(180,Number(setting&&setting.Value)||70));
  const source=rows.filter(r=>truthy(r.Active)&&truthy(r[TARGET_SCREEN])&&clean(r.Image_URL)).sort((a,b)=>(Number(a.Display_Order)||99999)-(Number(b.Display_Order)||99999));
@@ -229,7 +247,7 @@ function updateImageTicker(rows){
 function renderMenuItem(item,groupName,panel){
  if(isProteinBanner(item))return "";
  const rawPrice=priceOf(item),hideVariant=["burritos in foil","smothered burritos"].includes(clean(groupName).toLowerCase()),v=hideVariant?"":clean(item.Variant_or_Size),d=clean(item.Dietary),x=clean(item.Description),combo=combinationDetails(item,x,rawPrice),p=combo?"":rawPrice,chile=chileOptions(item);
- return `<article class="item"><div class="top"><span class="name">${badgesFor(item)}${esc(item.Display_Name)}</span>${chile}${p?`<span class="dots"></span><span class="price">${esc(p)}</span>`:""}</div>${combo||((v||x||d)?`<div class="desc">${v?`<span class="variant">${esc(v)}</span>${x?" · ":""}`:""}${x?esc(x):""}${d?` <span class="dietary">(${esc(d)})</span>`:""}</div>`:"")}${tagsFor(item,panel)}</article>`;
+ return `<article class="item"><div class="top"><span class="name">${badgesFor(item)}${esc(item.Display_Name)}${gfBadgeFor(item)}</span>${chile}${p?`<span class="dots"></span><span class="price">${esc(p)}</span>`:""}</div>${combo||((v||x||d)?`<div class="desc">${v?`<span class="variant">${esc(v)}</span>${x?" · ":""}`:""}${x?esc(x):""}${d?` <span class="dietary">(${esc(d)})</span>`:""}</div>`:"")}${tagsFor(item,panel)}</article>`;
 }
 function renderStandardCategory(group,panel){
  return `<section class="category${categoryClass(group.name)}"><div class="category-head"><h2 class="category-title">${esc(group.name)}</h2>${categoryHeaderOptions(group.name)}</div>${categoryIntro(group.name)}${groupUsesProteins(group.name)?proteinBanner(panel):""}${group.items.map(item=>renderMenuItem(item,group.name,panel)).join("")}</section>`;
