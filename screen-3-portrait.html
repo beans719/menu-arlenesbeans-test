@@ -187,11 +187,16 @@ const CHILE_ITEMS=new Set([
  "enchilada plate","enchilada bowl","relleno plate","tamale & relleno plate","tamale plate","frito pie","asada fries","chile cheese tots","chile cheese fries","los padilla breakfast burrito jr","los padilla smothered","breakfast chimichanga","huevos rancheros","chile relleno solo with meat on top"
 ]);
 function chileOptions(item){
- const selected=clean(item.Chile_Indicator).toLowerCase();
- if(selected==="green")return `<span class="chile-options cms-chile-indicator" aria-label="Green chile"><i class="chile-dot c-green"></i></span>`;
- if(selected==="red")return `<span class="chile-options cms-chile-indicator" aria-label="Red chile"><i class="chile-dot c-red"></i></span>`;
- if(selected==="xmas"||selected==="christmas")return `<span class="chile-options cms-chile-indicator" aria-label="Christmas chile"><i class="chile-dot c-xmas"></i></span>`;
- if(selected==="none")return "";
+ const selected=clean(item.Chile_Indicator);
+ if(selected){
+   const values=selected.split(/[,|+]/).map(v=>clean(v).toLowerCase()).filter(Boolean);
+   if(values.includes("none"))return "";
+   const dots=[];
+   if(values.includes("green"))dots.push('<i class="chile-dot c-green"></i>');
+   if(values.includes("red"))dots.push('<i class="chile-dot c-red"></i>');
+   if(values.includes("xmas")||values.includes("christmas"))dots.push('<i class="chile-dot c-xmas"></i>');
+   if(dots.length)return `<span class="chile-options cms-chile-indicator" aria-label="${esc(selected)} chile">${dots.join("")}</span>`;
+ }
  const name=clean(item.Display_Name).toLowerCase().replace(/[.]+$/g,"");
  if(name==="chicken wings")return `<div class="wing-options"><span class="buffalo">BUFFALO</span> • <span class="jalamango">JALAMANGO</span> • <span class="plain">PLAIN</span></div>`;
  return CHILE_ITEMS.has(name)?`<span class="chile-options" aria-label="Green, red or Christmas chile"><i class="chile-dot c-green"></i><i class="chile-dot c-red"></i><i class="chile-dot c-xmas"></i></span>`:"";
@@ -236,6 +241,11 @@ function badgesFor(item){
  if(cms.includes("featured"))out+=`<span class="menu-badge badge-featured" aria-label="Featured"><span class="badge-mark">◆</span><span>FEATURED</span></span>`;
  if(cms.includes("new"))out+=`<span class="menu-badge badge-new" aria-label="New"><span class="badge-mark">✦</span><span>NEW</span></span>`;
  return out?`<span class="item-badges">${out}</span>`:"";
+}
+function gfBadgeFor(item){
+ const dietary=clean(item.Dietary),cms=clean(item.Badges).split(",").map(x=>x.trim().toLowerCase());
+ const isGF=/(^|[^a-z])gf([^a-z]|$)|gluten[ -]?free|gluten friendly/i.test(dietary)||cms.includes("gluten friendly");
+ return isGF?`<span class="gf-friendly-badge native-gf-badge" title="Gluten Friendly" aria-label="Gluten Friendly">GF</span>`:"";
 }
 function updateImageTicker(rows){
  const setting=rows.find(r=>clean(r.Setting).toLowerCase()==="scroll_speed"),speed=Math.max(25,Math.min(180,Number(setting&&setting.Value)||70));
