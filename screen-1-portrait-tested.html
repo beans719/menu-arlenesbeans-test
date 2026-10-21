@@ -132,7 +132,7 @@ body:before,body:after{display:none!important}
 .badge-featured,.badge-new{gap:4px!important;padding:3px 7px!important;border:1px solid currentColor!important;border-radius:999px!important;font-size:8.5px!important;font-weight:900!important;letter-spacing:.045em!important;background:rgba(255,250,241,.92)!important}
 .badge-featured{color:#9B302A!important;background:rgba(155,48,42,.08)!important}.badge-new{color:#2F7773!important;background:rgba(47,119,115,.09)!important}.badge-mark{font-size:8px!important}
 .gf-friendly-badge.native-gf-badge{display:inline-flex!important;align-items:center!important;justify-content:center!important;vertical-align:middle!important;margin-left:5px!important;padding:2px 6px 2.5px!important;min-width:25px!important;border:1px solid rgba(87,105,74,.68)!important;border-radius:999px!important;background:rgba(87,105,74,.10)!important;color:#57694A!important;font-family:'Work Sans',Segoe UI,Arial,sans-serif!important;font-size:.72em!important;line-height:1.05!important;font-weight:800!important;letter-spacing:.045em!important;white-space:nowrap!important}
-.gf-friendly-badge.native-gf-badge::before{content:'';display:inline-block;width:5px;height:8px;margin-right:3px;border-radius:80% 0 80% 0;background:currentColor;transform:rotate(-32deg);opacity:.9}</style></head>
+.gf-friendly-badge.native-gf-badge::before{content:'';display:inline-block;width:5px;height:8px;margin-right:3px;border-radius:80% 0 80% 0;background:currentColor;transform:rotate(-32deg);opacity:.9}</style><script src="safe-sync-test.js?v=20261021"></script></head>
 <body data-screen="Screen 1"><div class="rigid-tv-canvas"><main class="screen"><header class="header"><div><h1>Arlene's Beans</h1><div class="kicker">New Mexican Kitchen</div></div><div class="screen-title">Breakfast · Tacos · Plates</div></header>
 <section id="content" class="content"><div class="loading">Connecting to Arlenes Menu…</div></section>
 <footer class="footer"><div>Screen 1 of 3</div><div class="chiles"><span class="chile-key"><i class="chile-dot c-green"></i>Green</span><span class="chile-key"><i class="chile-dot c-red"></i>Red</span><span class="chile-key"><i class="chile-dot c-xmas"></i>Christmas</span></div><div id="status" class="status">Starting…</div></footer></main><aside id="image-ticker" class="image-ticker" aria-hidden="true"><div class="image-ticker-track"></div></aside>
@@ -154,7 +154,7 @@ const IMAGE_TICKER_SHEET = "Image Ticker";
 const TARGET_SCREEN = document.body.dataset.screen;
 const CHANGE_SIGNAL_SHEET = "Control Panel";
 const CHANGE_SIGNAL_RANGE = "H7";
-const SIGNAL_POLL_MS = 15000;
+const SIGNAL_POLL_MS = 60000;
 const content = document.getElementById("content");
 const statusEl = document.getElementById("status");
 const imageTickerEl = document.getElementById("image-ticker");
@@ -329,22 +329,26 @@ window.arlenesMenuCallback=function(resp){try{if(!resp||!resp.table)throw new Er
 window.arlenesTacosCallback=function(resp){if(resp&&resp.table){tacosPanel=resp.table;if(masterRows.length)render(masterRows,tacosPanel)}};
 window.arlenesFunctionsCallback=function(resp){if(resp&&resp.table){const functionRows=rowsFrom(resp.table);badgesById=new Map(functionRows.filter(r=>clean(r.Menu_ID)).map(r=>[clean(r.Menu_ID),{crown:truthy(r.Crown),best:truthy(r["Best Seller"]),heart:truthy(r.Heart)}]));const breakfastRow=functionRows.find(r=>clean(r.Function).toLowerCase()==="breakfast_schedule");if(breakfastRow)breakfastSettings={auto:truthy(breakfastRow.Active),manual:truthy(breakfastRow["screen 1"])};if(masterRows.length)render(masterRows,tacosPanel)}};
 window.arlenesImageTickerCallback=function(resp){if(resp&&resp.table)updateImageTicker(rowsFrom(resp.table))};
-function addSheetLoader(id,sheet,callback,headers){const old=document.getElementById(id);if(old)old.remove();const s=document.createElement("script");s.id=id;s.src="https://docs.google.com/spreadsheets/d/"+SPREADSHEET_ID+"/gviz/tq?sheet="+encodeURIComponent(sheet)+"&tqx=responseHandler:"+callback+"&tq="+encodeURIComponent("select *")+"&headers="+headers+"&_="+Date.now();s.onerror=()=>{if(sheet===SHEET_NAME)fail("The Google Sheets endpoint did not respond.")};document.body.appendChild(s)}
-function load(){statusEl.textContent="Syncing…";addSheetLoader("gsheet-loader",SHEET_NAME,"arlenesMenuCallback",1);addSheetLoader("tacos-panel-loader",TACOS_PANEL_SHEET,"arlenesTacosCallback",0);addSheetLoader("functions-loader",FUNCTIONS_SHEET,"arlenesFunctionsCallback",1);addSheetLoader("image-ticker-loader",IMAGE_TICKER_SHEET,"arlenesImageTickerCallback",1)}
-let lastMenuChangeSignal=null;
-window.arlenesChangeSignalCallback=function(resp){
- try{
-  const cell=resp&&resp.table&&resp.table.rows&&resp.table.rows[0]&&resp.table.rows[0].c&&resp.table.rows[0].c[0];
-  const signal=cell&&cell.v!==null&&cell.v!==undefined?String(cell.v):"";
-  if(lastMenuChangeSignal===null){lastMenuChangeSignal=signal;return}
-  if(signal!==lastMenuChangeSignal){lastMenuChangeSignal=signal;load()}
- }catch(e){}
-};
-function checkMenuChangeSignal(){
- const old=document.getElementById("menu-change-signal-loader");if(old)old.remove();
- const s=document.createElement("script");s.id="menu-change-signal-loader";
- s.src="https://docs.google.com/spreadsheets/d/"+SPREADSHEET_ID+"/gviz/tq?sheet="+encodeURIComponent(CHANGE_SIGNAL_SHEET)+"&range="+encodeURIComponent(CHANGE_SIGNAL_RANGE)+"&tqx=responseHandler:arlenesChangeSignalCallback&headers=0&_="+Date.now();
- document.body.appendChild(s);
-}
-load();checkMenuChangeSignal();setInterval(checkMenuChangeSignal,SIGNAL_POLL_MS);setInterval(refreshBreakfastAtBoundary,15000);
+/* Atomic offline-safe TEST synchronization; 60-second signal checks. */
+window.ArlenesSafeSync({
+ spreadsheetId: SPREADSHEET_ID,
+ screen: TARGET_SCREEN,
+ statusEl: statusEl,
+ rowsFrom: rowsFrom,
+ sheets: {
+  menu: SHEET_NAME,
+  tacos: TACOS_PANEL_SHEET,
+  functions: FUNCTIONS_SHEET,
+  images: IMAGE_TICKER_SHEET,
+  signal: CHANGE_SIGNAL_SHEET,
+  signalRange: CHANGE_SIGNAL_RANGE
+ },
+ callbacks: {
+  menu: window.arlenesMenuCallback,
+  tacos: window.arlenesTacosCallback,
+  functions: window.arlenesFunctionsCallback,
+  images: window.arlenesImageTickerCallback
+ }
+});
+setInterval(refreshBreakfastAtBoundary,15000);
 </script></body></html>
