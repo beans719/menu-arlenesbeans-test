@@ -16,6 +16,38 @@
     let polling = false;
     let committed = false;
     let appliedSignal = null;
+    const snapshotKey = "arlenes-test-lastgood-v1:"+spreadsheetId+":"+options.screen;
+
+    function validBundle(results){
+      if(!Array.isArray(results) || results.length!==4)throw new Error("Incomplete menu bundle");
+      for(const response of results){
+        if(!response || !response.table || !Array.isArray(response.table.cols) ||
+           !Array.isArray(response.table.rows))throw new Error("Invalid menu bundle");
+      }
+      validMenu(results[0]);
+    }
+    function applyBundle(results, fromStorage){
+      validBundle(results);
+      // These callbacks execute synchronously: the browser paints only after
+      // all four have returned, avoiding intermediate incomplete frames.
+      callbacks.menu(results[0]);
+      callbacks.tacos(results[1]);
+      callbacks.functions(results[2]);
+      callbacks.images(results[3]);
+      committed=true;
+      if(fromStorage)status.textContent="Saved menu · checking for updates";
+      if(!fromStorage){
+        try{localStorage.setItem(snapshotKey,JSON.stringify(results));}
+        catch(error){console.warn("Could not persist validated menu snapshot:",error);}
+        if(!navigator.onLine)status.textContent="Offline · saved menu";
+      }
+    }
+    function restoreSnapshot(){
+      try{
+        const raw=localStorage.getItem(snapshotKey);
+        if(raw)applyBundle(JSON.parse(raw),true);
+      }catch(error){console.warn("Saved menu snapshot unavailable:",error);}
+    }
 
     function requestTable(sheet, callbackName, headers, range){
       return new Promise((resolve,reject)=>{
@@ -79,15 +111,7 @@
           const failed=settled.find(result=>result.status==="rejected");
           if(failed)throw failed.reason;
           const results=settled.map(result=>result.value);
-          validMenu(results[0]);
-          // All four sources are ready and structurally valid before changing the DOM.
-          // Callback order preserves dependencies on Menu_Master, Tacos, Functions.
-          callbacks.menu(results[0]);
-          callbacks.tacos(results[1]);
-          callbacks.functions(results[2]);
-          callbacks.images(results[3]);
-          committed=true;
-          if(!navigator.onLine)status.textContent="Offline · saved menu";
+          applyBundle(results,false);
           return true;
         }catch(error){
           console.warn("Menu refresh deferred; existing display retained:",error);
@@ -117,6 +141,7 @@
         polling=false;
       }
     }
+    restoreSnapshot();
     load();
     checkSignal();
     setInterval(checkSignal,POLL_MS);
