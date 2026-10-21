@@ -70,12 +70,15 @@
       if(pendingLoad)return pendingLoad;
       pendingLoad=(async()=>{
         try{
-          const results=await Promise.all([
+          const settled=await Promise.allSettled([
             requestTable(names.menu,"arlenesStagedMenu",1),
             requestTable(names.tacos,"arlenesStagedTacos",0),
             requestTable(names.functions,"arlenesStagedFunctions",1),
             requestTable(names.images,"arlenesStagedImages",1)
           ]);
+          const failed=settled.find(result=>result.status==="rejected");
+          if(failed)throw failed.reason;
+          const results=settled.map(result=>result.value);
           validMenu(results[0]);
           // All four sources are ready and structurally valid before changing the DOM.
           // Callback order preserves dependencies on Menu_Master, Tacos, Functions.
