@@ -26,4 +26,4 @@
   function activate(){applyBulkTable();[100,300,700,1200,2200,4000].forEach(ms=>setTimeout(applyBulkTable,ms));let doc;try{doc=frame.contentDocument||frame.contentWindow.document}catch(_){return}if(doc&&doc.body&&!doc.body.dataset.bulkTwoColumnObserver){doc.body.dataset.bulkTwoColumnObserver='1';new MutationObserver(applyBulkTable).observe(doc.body,{childList:true,subtree:true});}}
   frame.addEventListener('load',activate);if(frame.contentDocument&&frame.contentDocument.readyState!=='loading')activate();
 })();
-</script></body></html>
+</script><script src="offline-test.js?v=20261021"></script></body></html>
